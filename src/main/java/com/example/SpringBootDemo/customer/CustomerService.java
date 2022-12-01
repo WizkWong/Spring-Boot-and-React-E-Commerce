@@ -64,9 +64,9 @@ public class CustomerService {
         BeanUtils.copyProperties(customer, customerEntity);
         customerEntity.setId(userEntity.getId());
         customerEntity.setUserEntity(userEntity);
-        customerRepository.save(customerEntity);
+        customerEntity = customerRepository.save(customerEntity);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerRepository.save(customerEntity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerEntity);
     }
 
     @Transactional
