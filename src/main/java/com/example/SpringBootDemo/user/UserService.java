@@ -52,8 +52,11 @@ public class UserService {
 
     @Transactional
     public void updateUser(UserEntity userEntity, User user) {
-
         if (!Objects.equals(userEntity.getUsername(), user.getUsername())) {
+
+            if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+                throw new DuplicateException("User is taken");
+            }
             userEntity.setUsername(user.getUsername());
         }
 
