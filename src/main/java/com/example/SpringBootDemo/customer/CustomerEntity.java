@@ -1,9 +1,12 @@
 package com.example.SpringBootDemo.customer;
 
 import javax.persistence.*;
+import com.example.SpringBootDemo.customer_cart.CustomerCartEntity;
 import com.example.SpringBootDemo.user.UserEntity;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -27,6 +30,15 @@ public class CustomerEntity {
     private Integer age;
 
     private String card;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+//    @JoinTable(
+//            name = "customer_cart",
+//            joinColumns = @JoinColumn( name = "customer_id"),
+//            inverseJoinColumns = @JoinColumn( name = "cart_id")
+//    )
+    private Set<CustomerCartEntity> cart = new HashSet<>();
 
     public CustomerEntity(UserEntity userEntity, LocalDate dob, String card) {
         this.userEntity = userEntity;
@@ -74,5 +86,13 @@ public class CustomerEntity {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Set<CustomerCartEntity> getCart() {
+        return cart;
+    }
+
+    public void setCart(Set<CustomerCartEntity> cart) {
+        this.cart = cart;
     }
 }

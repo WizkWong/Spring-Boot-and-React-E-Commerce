@@ -1,9 +1,12 @@
 package com.example.SpringBootDemo.customer;
 
+import com.example.SpringBootDemo.customer_cart.CustomerCartEntity;
 import com.example.SpringBootDemo.user.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Customer {
 
@@ -11,22 +14,29 @@ public class Customer {
     private User user;
     private LocalDate dob;
     private String card;
+    private Set<CustomerCartEntity> cart = new HashSet<>();
 
     // when dob is LocalDate format
-    public Customer(User user, LocalDate dob, String card) {
+    public Customer(User user, LocalDate dob, String card, Set<CustomerCartEntity> cart) {
         this.user = user;
         this.dob = dob;
         this.card = card;
+        this.cart = cart;
     }
 
     // when dob is String format
-    public Customer(User user, String dob, String card) {
+    public Customer(User user, String dob, String card, Set<CustomerCartEntity> cart) {
         this.user = user;
-        this.dob = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.dob = parseToLocalDate(dob);
         this.card = card;
+        this.cart = cart;
     }
 
     public Customer() {
+    }
+
+    public LocalDate parseToLocalDate(String dob) {
+        return LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public long getId() {
@@ -65,4 +75,11 @@ public class Customer {
         this.card = card;
     }
 
+    public Set<CustomerCartEntity> getCart() {
+        return cart;
+    }
+
+    public void setCart(Set<CustomerCartEntity> cart) {
+        this.cart = cart;
+    }
 }

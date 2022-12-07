@@ -1,7 +1,10 @@
 package com.example.SpringBootDemo.customer;
 
+import com.example.SpringBootDemo.customer_cart.CustomerCartEntity;
+
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Set;
 
 public class CustomerDTO {
 
@@ -11,6 +14,7 @@ public class CustomerDTO {
     private Integer age;
     private String email;
     private String phoneNo;
+    private Set<CustomerCartEntity> cart;
 
     public long getCustomerId() {
         return customerId;
@@ -60,4 +64,11 @@ public class CustomerDTO {
         this.phoneNo = phoneNo;
     }
 
+    public Set<CustomerCartEntity> getCart() {
+        return cart;
+    }
+
+    public void setCart(Set<CustomerCartEntity> cart) {
+        this.cart = cart;
+    }
 }
