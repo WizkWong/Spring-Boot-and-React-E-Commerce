@@ -13,21 +13,18 @@ import java.time.LocalDateTime;
 public class configuration {
 
     @Bean
-    CommandLineRunner commandLineRunner(CustomerService service) {
-        return null;
-//        return args -> {
-//            User user1 = new User(
-//                "Home",
-//                "nah",
-//                "home@gmail.com",
-//                "0119382048",
-//                false,
-//                false
-//            );
-//        };
+    CommandLineRunner commandLineRunner(ProductRepository productRepository) {
+        return args -> {
+            Product product = new Product();
+            product.setName("fries");
+            product.setPrice(3.0);
+            product.setCreated_datetime(LocalDateTime.now());
+            productRepository.save(product);
+
+        };
     }
 
-    // must to create ModelMapper class in configuration or else will boot up error
+    // must create ModelMapper class in configuration or else will boot up error
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
