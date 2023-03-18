@@ -1,13 +1,13 @@
 package com.example.SpringBootDemo.customer;
 
+import com.example.SpringBootDemo.customer_cart.CustomerCartRepository;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.ValidationFailException;
-import com.example.SpringBootDemo.user.UserEntity;
+import com.example.SpringBootDemo.user.User;
 import com.example.SpringBootDemo.user.UserService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,36 +19,37 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CustomerService {
 
     private final ModelMapper modelMapper;
     private final UserService userService;
     private final CustomerRepository customerRepository;
-
-    @Autowired
-    public CustomerService(ModelMapper modelMapper, UserService userService, CustomerRepository customerRepository) {
-        this.modelMapper = modelMapper;
-        this.userService = userService;
-        this.customerRepository = customerRepository;
-    }
+    private final CustomerCartRepository customerCartRepository;
 
     public CustomerDTO getCustomerById(long id) {
-        CustomerEntity customerEntity = customerRepository.findById(id)
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-        return modelMapper.map(customerEntity, CustomerDTO.class);
+        CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
+        customerDTO.setCart(customerCartRepository.findByCustomer(customer));
+        return customerDTO;
     }
 
     public List<CustomerDTO> getAllCustomers() {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return customerRepository.findAll()
                 .stream()
-                .map(customerEntity -> modelMapper.map(customerEntity, CustomerDTO.class))
+                .map(customer -> {
+                    CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
+                    customerDTO.setCart(customerCartRepository.findByCustomer(customer));
+                    return customerDTO;
+                })
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<CustomerEntity> createCustomer(Customer customer) {
+    public ResponseEntity<Customer> createCustomer(Customer customer) {
         // validate user and customer object
         validateCustomer(customer);
 
@@ -57,37 +58,35 @@ public class CustomerService {
         customer.getUser().setSuperuser(false);
 
         // create and save user first
-        UserEntity userEntity = userService.createUser(customer.getUser());
+        User user = userService.createUser(customer.getUser());
 
         // create and save customer
-        CustomerEntity customerEntity = new CustomerEntity();
-        BeanUtils.copyProperties(customer, customerEntity);
-        customerEntity.setId(userEntity.getId());
-        customerEntity.setUserEntity(userEntity);
-        customerEntity = customerRepository.save(customerEntity);
+        customer.setId(user.getId());
+        customer.setUser(user);
+        customer = customerRepository.save(customer);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }
 
     @Transactional
     public void updateCustomer(long id, Customer customer) {
         // check customer exist or not
-        CustomerEntity customerEntity = customerRepository.findById(id)
+        Customer oldCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
         // validate user and customer object
         validateCustomer(customer);
 
         // update user
-        userService.updateUser(customerEntity.getUserEntity(), customer.getUser());
+        userService.updateUser(oldCustomer.getUser(), customer.getUser());
 
         // set value and save into database
-        if (!Objects.equals(customerEntity.getDob(), customer.getDob())) {
-            customerEntity.setDob(customer.getDob());
+        if (!Objects.equals(oldCustomer.getDob(), customer.getDob())) {
+            oldCustomer.setDob(customer.getDob());
         }
 
-        if (!Objects.equals(customerEntity.getCard(), customer.getCard())) {
-            customerEntity.setCard(customer.getCard());
+        if (!Objects.equals(oldCustomer.getCard(), customer.getCard())) {
+            oldCustomer.setCard(customer.getCard());
         }
     }
 

@@ -1,11 +1,11 @@
 package com.example.SpringBootDemo.customer_cart;
 
-import com.example.SpringBootDemo.customer.CustomerEntity;
+import com.example.SpringBootDemo.customer.Customer;
 import com.example.SpringBootDemo.customer.CustomerRepository;
 import com.example.SpringBootDemo.exception.NotFoundException;
-import com.example.SpringBootDemo.product.ProductEntity;
+import com.example.SpringBootDemo.product.Product;
 import com.example.SpringBootDemo.product.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,41 +13,35 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CustomerCartService {
 
     public final CustomerRepository customerRepository;
     public final CustomerCartRepository customerCartRepository;
     public final ProductRepository productRepository;
 
-    @Autowired
-    public CustomerCartService(CustomerRepository customerRepository, CustomerCartRepository customerCartRepository, ProductRepository productRepository) {
-        this.customerRepository = customerRepository;
-        this.customerCartRepository = customerCartRepository;
-        this.productRepository = productRepository;
-    }
-
-    public List<CustomerCartEntity> getCustomerCartById(long id) {
-        CustomerEntity customerEntity = customerRepository.findById(id)
+    public List<CustomerCart> getCustomerCartById(long id) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
-        return customerCartRepository.findByCustomer(customerEntity);
+        return customerCartRepository.findByCustomer(customer);
     }
 
     @Transactional
-    public void addCustomerCartById(long id, CustomerCartEntity customerCartEntity) {
-        CustomerEntity customer = customerRepository.findById(id)
+    public void addCustomerCartById(long id, CustomerCart customerCart) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
-        Optional<CustomerCartEntity> existCartItem = customerCartRepository.findByCustomerAndProduct(customer, customerCartEntity.getProduct());
+        Optional<CustomerCart> existCartItem = customerCartRepository.findByCustomerAndProduct(customer, customerCart.getProduct());
         if (existCartItem.isPresent()) {
-            CustomerCartEntity cartItem = existCartItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + customerCartEntity.getQuantity());
+            CustomerCart cartItem = existCartItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + customerCart.getQuantity());
             return;
         }
-        ProductEntity productEntity = productRepository.findById(customerCartEntity.getProduct().getId())
+        Product product = productRepository.findById(customerCart.getProduct().getId())
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
-        customerCartEntity.setCustomer(customer);
-        customerCartEntity.setProduct(productEntity);
-        customerCartRepository.save(customerCartEntity);
+        customerCart.setCustomer(customer);
+        customerCart.setProduct(product);
+        customerCartRepository.save(customerCart);
     }
 }

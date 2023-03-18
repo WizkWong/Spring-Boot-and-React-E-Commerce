@@ -1,15 +1,13 @@
 package com.example.SpringBootDemo;
 
-import com.example.SpringBootDemo.customer.CustomerService;
-import com.example.SpringBootDemo.user.User;
+import com.example.SpringBootDemo.product.Product;
+import com.example.SpringBootDemo.product.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Configuration
 public class configuration {

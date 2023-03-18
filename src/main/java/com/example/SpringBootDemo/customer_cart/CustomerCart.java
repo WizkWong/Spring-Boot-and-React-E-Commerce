@@ -1,7 +1,8 @@
 package com.example.SpringBootDemo.customer_cart;
 
-import com.example.SpringBootDemo.customer.CustomerEntity;
-import com.example.SpringBootDemo.product.ProductEntity;
+import com.example.SpringBootDemo.customer.Customer;
+import com.example.SpringBootDemo.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
     uniqueConstraints = {@UniqueConstraint(columnNames = {"customer_id", "product_id"})}
 )
 @Data
-public class CustomerCartEntity {
+public class CustomerCart {
     @Id
     @SequenceGenerator(
             name = "carts_sequence",
@@ -26,15 +27,16 @@ public class CustomerCartEntity {
             name = "id",
             updatable = false
     )
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    private Product product;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
+    private Customer customer;
 
-    private int quantity;
+    private Integer quantity;
 }

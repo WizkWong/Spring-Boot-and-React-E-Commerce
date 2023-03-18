@@ -2,9 +2,7 @@ package com.example.SpringBootDemo.user;
 
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
-import com.example.SpringBootDemo.exception.ValidationFailException;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,62 +12,56 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public UserEntity getUserById(long id) {
+    public User getUserById(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("User ID:{%d} is not found", id)));
     }
 
-    public UserEntity getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(String.format("Username {%s} is not found", username)));
     }
 
-    public List<UserEntity> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public UserEntity createUser(User user) {
+    public User createUser(User user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new DuplicateException("User is taken");
         }
         user.setCreated_datetime(LocalDateTime.now());
-        UserEntity userEntity = new UserEntity();
 
-        BeanUtils.copyProperties(user, userEntity);
-        userRepository.save(userEntity);
+        userRepository.save(user);
 
-        return userEntity;
+        return user;
     }
 
     @Transactional
-    public void updateUser(UserEntity userEntity, User user) {
-        if (!Objects.equals(userEntity.getUsername(), user.getUsername())) {
+    public void updateUser(User oldUser, User newUser) {
+        if (!Objects.equals(oldUser.getUsername(), newUser.getUsername())) {
 
-            if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
                 throw new DuplicateException("User is taken");
             }
-            userEntity.setUsername(user.getUsername());
+            oldUser.setUsername(newUser.getUsername());
         }
 
-        if (!Objects.equals(userEntity.getPassword(), user.getPassword())) {
-            userEntity.setPassword(user.getPassword());
+        if (!Objects.equals(oldUser.getPassword(), newUser.getPassword())) {
+            oldUser.setPassword(newUser.getPassword());
         }
 
-        if (!Objects.equals(userEntity.getEmail(), user.getEmail())) {
-            userEntity.setEmail(user.getEmail());
+        if (!Objects.equals(oldUser.getEmail(), newUser.getEmail())) {
+            oldUser.setEmail(newUser.getEmail());
         }
 
-        if (!Objects.equals(userEntity.getPhoneNo(), user.getPhoneNo())) {
-            userEntity.setPhoneNo(user.getPhoneNo());
+        if (!Objects.equals(oldUser.getPhoneNo(), newUser.getPhoneNo())) {
+            oldUser.setPhoneNo(newUser.getPhoneNo());
         }
     }
 

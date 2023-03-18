@@ -1,22 +1,17 @@
 package com.example.SpringBootDemo.customer;
 
-import com.example.SpringBootDemo.user.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "api/v1/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
-
-    @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @GetMapping(path = "/get/id/{id}")
     public CustomerDTO getCustomerById(@PathVariable("id") long id) {
@@ -29,7 +24,7 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/create")
-    public ResponseEntity<CustomerEntity> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 

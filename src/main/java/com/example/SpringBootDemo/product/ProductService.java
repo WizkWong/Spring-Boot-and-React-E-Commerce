@@ -2,7 +2,7 @@ package com.example.SpringBootDemo.product;
 
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,57 +14,53 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
 
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    public ProductEntity getProductById(long id) {
+    public Product getProductById(long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
     }
 
-    public List<ProductEntity> getAllProduct() {
+    public List<Product> getAllProduct() {
         return productRepository.findAll();
     }
 
-    public ResponseEntity<ProductEntity> createProduct(ProductEntity productEntity) {
-        if (productRepository.findByName(productEntity.getName()).isPresent()) {
-            throw new DuplicateException(String.format("Product Name:{%s} is taken", productEntity.getName()));
+    public ResponseEntity<Product> createProduct(Product product) {
+        if (productRepository.findByName(product.getName()).isPresent()) {
+            throw new DuplicateException(String.format("Product Name:{%s} is taken", product.getName()));
         }
 
-        productEntity.setCreated_datetime(LocalDateTime.now());
+        product.setCreated_datetime(LocalDateTime.now());
 
-        productEntity = productRepository.save(productEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productEntity);
+        product = productRepository.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @Transactional
-    public String updateProduct(ProductEntity productEntity, ProductEntity requestProduct) {
-        if (!Objects.equals(productEntity.getName(), requestProduct.getName())) {
+    public String updateProduct(Product product, Product requestProduct) {
+        if (!Objects.equals(product.getName(), requestProduct.getName())) {
 
             if (productRepository.findByName(requestProduct.getName()).isPresent()) {
                 return String.format("Product Name:{%s} is taken", requestProduct.getName());
             }
-            productEntity.setName(requestProduct.getName());
+            product.setName(requestProduct.getName());
         }
 
-        if (!Objects.equals(productEntity.getPrice(), requestProduct.getPrice())) {
-            productEntity.setPrice(requestProduct.getPrice());
+        if (!Objects.equals(product.getPrice(), requestProduct.getPrice())) {
+            product.setPrice(requestProduct.getPrice());
         }
         return null;
     }
 
     @Transactional
-    public void preUpdateProduct(long id, ProductEntity requestProduct) {
-        ProductEntity productEntity = productRepository.findById(id)
+    public void preUpdateProduct(long id, Product requestProduct) {
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
 
-        String errorMsg = updateProduct(productEntity, requestProduct);
+        String errorMsg = updateProduct(product, requestProduct);
         if (errorMsg != null) {
             throw new DuplicateException(errorMsg);
         }
@@ -72,10 +68,11 @@ public class ProductService {
 
     @Transactional
     public void updateMultipleProduct(List<ProductDTO> listProduct) {
-        String errorMsg = listProduct.stream().map(productEntity -> {
-            ProductEntity oldProduct = productRepository.findByName(productEntity.getOldProductName())
-                    .orElseThrow(() -> new NotFoundException(String.format("Product Name:{%s} is not found", productEntity.getOldProductName())));
-            return updateProduct(oldProduct, productEntity.getNewProduct());
+        String errorMsg = listProduct.stream().map(product -> {
+            Product oldProduct = productRepository.findByName(product.getOldProductName())
+                    .orElseThrow(() -> new NotFoundException(String.format("Product Name:{%s} is not found", product.getOldProductName())));
+
+            return updateProduct(oldProduct, product.getNewProduct());
         }).filter(Objects::nonNull).collect(Collectors.joining(", "));
 
         if (!errorMsg.isEmpty()) {
