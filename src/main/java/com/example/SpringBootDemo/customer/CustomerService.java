@@ -91,22 +91,22 @@ public class CustomerService {
     }
 
     public void validateCustomer(Customer customer) {
-        String errorMsg = userService.validateUser(customer.getUser());
+        StringBuilder errorMsg = userService.validateUser(customer.getUser());
 
         LocalDate dob = customer.getDob();
         String card = customer.getCard();
 
         if (dob == null) {
-            errorMsg += "Date of birth cannot be empty; ";
+            errorMsg.append("Date of birth cannot be empty; ");
         }
 
         // need to modify that add card class
         if (card == null || card.length() <= 0) {
-            errorMsg += "Card cannot be empty or is not valid; ";
+            errorMsg.append("Card cannot be empty or is not valid; ");
         }
 
         if (!errorMsg.isEmpty()) {
-            throw new ValidationFailException(errorMsg);
+            throw new ValidationFailException(errorMsg.toString());
         }
 
     }

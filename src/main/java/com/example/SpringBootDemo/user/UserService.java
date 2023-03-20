@@ -65,8 +65,8 @@ public class UserService {
         }
     }
 
-    public String validateUser(User user) {
-        String errorMsg = "";
+    public StringBuilder validateUser(User user) {
+        StringBuilder errorMsg = new StringBuilder();
 
         String username = user.getUsername();
         String password = user.getPassword();
@@ -76,19 +76,19 @@ public class UserService {
         Pattern validEmailAddress = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
         if (username == null || username.length() < 4) {
-            errorMsg += "Username cannot be empty or must more than or equal 4 character; ";
+            errorMsg.append("Username cannot be empty or must more than or equal 4 character; ");
         }
 
         if (password == null || password.length() < 8) {
-            errorMsg += "Password cannot be empty or must at least 8 password length; ";
+            errorMsg.append("Password cannot be empty or must at least 8 password length; ");
         }
 
         if (email == null || !validEmailAddress.matcher(email).matches()) {
-            errorMsg += "Email cannot be empty or is in wrong format; ";
+            errorMsg.append("Email cannot be empty or is in wrong format; ");
         }
 
         if (phoneNo == null || phoneNo.length() <= 0) {
-            errorMsg += "Phone number cannot be empty or does not valid; ";
+            errorMsg.append("Phone number cannot be empty or does not valid; ");
         }
 
         return errorMsg;
