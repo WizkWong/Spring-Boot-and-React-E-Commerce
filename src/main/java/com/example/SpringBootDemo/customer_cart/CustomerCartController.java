@@ -12,12 +12,12 @@ public class CustomerCartController {
 
     private final CustomerCartService customerCartService;
 
-    @GetMapping(path = "/get")
+    @GetMapping
     public List<CustomerCart> getCustomerCartById(@PathVariable("id") long id) {
         return customerCartService.getCustomerCartById(id);
     }
 
-    @PutMapping(path = "/add")
+    @PutMapping
     public void addCustomerCartById(@PathVariable("id") long id, @RequestBody CustomerCart customerCart) {
         customerCartService.addCustomerCartById(id, customerCart);
     }

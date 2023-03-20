@@ -13,32 +13,32 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping(path = "/get/id/{id}")
+    @GetMapping(path = "/{id}")
     public Product getProductById(@PathVariable("id") long id) {
         return productService.getProductById(id);
     }
 
-    @GetMapping(path = "/getall")
+    @GetMapping
     public List<Product> getAllProduct() {
         return productService.getAllProduct();
     }
 
-    @PostMapping(path = "/create")
+    @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return productService.createProduct(product);
     }
 
-    @PutMapping(path = "/update/id/{id}")
+    @PutMapping(path = "/{id}")
     public void updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
         productService.preUpdateProduct(id, product);
     }
 
-    @PutMapping(path = "/update/name/multiple")
+    @PutMapping
     public void updateMultipleProduct(@RequestBody List<ProductDTO> listProduct) {
         productService.updateMultipleProduct(listProduct);
     }
 
-    @DeleteMapping(path = "/delete/id/{id}")
+    @DeleteMapping(path = "/{id}")
     public void deleteProduct(@PathVariable("id") long id) {
         productService.deleteProduct(id);
     }

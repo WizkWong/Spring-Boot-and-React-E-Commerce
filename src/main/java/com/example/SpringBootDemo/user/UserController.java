@@ -12,17 +12,17 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(path = "/get/id/{id}")
-    public User getUserByUsername(@PathVariable("id") long id) {
+    @GetMapping(path = "/{id}")
+    public User getUserById(@PathVariable("id") long id) {
         return userService.getUserById(id);
     }
 
-    @GetMapping(path = "/get/username/{username}")
+    @GetMapping(path = "/username/{username}")
     public User getUserByUsername(@PathVariable("username") String username) {
         return userService.getUserByUsername(username);
     }
 
-    @GetMapping(path = "/getall")
+    @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }

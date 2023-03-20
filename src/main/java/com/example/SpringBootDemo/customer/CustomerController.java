@@ -13,27 +13,27 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping(path = "/get/id/{id}")
+    @GetMapping(path = "/{id}")
     public CustomerDTO getCustomerById(@PathVariable("id") long id) {
         return customerService.getCustomerById(id);
     }
 
-    @GetMapping(path = "/getall")
+    @GetMapping
     public List<CustomerDTO> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    @PostMapping(path = "/create")
+    @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 
-    @PutMapping(path = "/update/id/{id}")
+    @PutMapping(path = "/{id}")
     public void updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
         customerService.updateCustomer(id, customer);
     }
 
-    @DeleteMapping(path = "/delete/id/{id}")
+    @DeleteMapping(path = "/{id}")
     public void deleteCustomer(@PathVariable("id") long id) {
         customerService.deleteCustomer(id);
     }
