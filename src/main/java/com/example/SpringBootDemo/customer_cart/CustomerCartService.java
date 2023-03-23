@@ -28,7 +28,7 @@ public class CustomerCartService {
     }
 
     @Transactional
-    public void addCustomerCartById(long id, CustomerCart customerCart) {
+    public void addCustomerCart(long id, CustomerCart customerCart) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
@@ -43,5 +43,19 @@ public class CustomerCartService {
         customerCart.setCustomer(customer);
         customerCart.setProduct(product);
         customerCartRepository.save(customerCart);
+    }
+
+    @Transactional
+    public void updateCustomerCart(long id, List<CustomerCart> customerCartList) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
+
+        List<CustomerCart> currCustomerCartList = customerCartRepository.findByCustomer(customer);
+
+        currCustomerCartList.forEach(c ->
+            customerCartList.stream().filter(
+                    o -> o.getProduct().getId().equals(c.getProduct().getId())
+            ).findFirst().ifPresent(customerCart -> c.setQuantity(customerCart.getQuantity()))
+        );
     }
 }

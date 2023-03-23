@@ -18,8 +18,12 @@ public class CustomerCartController {
     }
 
     @PutMapping
-    public void addCustomerCartById(@PathVariable("id") long id, @RequestBody CustomerCart customerCart) {
-        customerCartService.addCustomerCartById(id, customerCart);
+    public void addCustomerCart(@PathVariable("id") long id, @RequestBody CustomerCart customerCart) {
+        customerCartService.addCustomerCart(id, customerCart);
     }
 
+    @PutMapping(path = "/update")
+    public void updateCustomerCart(@PathVariable("id") long id, @RequestBody List<CustomerCart> customerCartList) {
+        customerCartService.updateCustomerCart(id, customerCartList);
+    }
 }
