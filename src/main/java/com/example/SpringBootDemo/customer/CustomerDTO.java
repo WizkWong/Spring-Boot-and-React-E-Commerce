@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,10 @@ public class CustomerDTO {
     private String email;
     private String phoneNo;
     private List<CustomerCart> cart;
+
+    public String getDob() {
+        return dob.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 
     public Integer getAge() {
         return Period.between(this.dob, LocalDate.now()).getYears();
