@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "product")
@@ -32,4 +33,8 @@ public class Product {
     private String name;
     private Double price;
     private LocalDateTime created_datetime;
+
+    public String getCreated_datetime() {
+        return created_datetime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+    }
 }
