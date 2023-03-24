@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -57,5 +59,13 @@ public class CustomerCartService {
                     o -> o.getProduct().getId().equals(c.getProduct().getId())
             ).findFirst().ifPresent(customerCart -> c.setQuantity(customerCart.getQuantity()))
         );
+    }
+
+    public void deleteCustomerCart(long id, List<CustomerCart> customerCartList) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
+
+        customerCartList = customerCartList.stream().map(c -> customerCartRepository.findByCustomerAndProduct(customer, c.getProduct()).orElse(null)).filter(Objects::nonNull).collect(Collectors.toList());
+        customerCartRepository.deleteAll(customerCartList);
     }
 }

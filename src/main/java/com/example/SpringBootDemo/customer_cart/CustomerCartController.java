@@ -17,13 +17,18 @@ public class CustomerCartController {
         return customerCartService.getCustomerCartById(id);
     }
 
-    @PutMapping
+    @PutMapping(path = "/add")
     public void addCustomerCart(@PathVariable("id") long id, @RequestBody CustomerCart customerCart) {
         customerCartService.addCustomerCart(id, customerCart);
     }
 
-    @PutMapping(path = "/update")
+    @PutMapping
     public void updateCustomerCart(@PathVariable("id") long id, @RequestBody List<CustomerCart> customerCartList) {
         customerCartService.updateCustomerCart(id, customerCartList);
+    }
+
+    @DeleteMapping
+    public void deleteCustomerCart(@PathVariable("id") long id, @RequestBody List<CustomerCart> customerCartList) {
+        customerCartService.deleteCustomerCart(id, customerCartList);
     }
 }
