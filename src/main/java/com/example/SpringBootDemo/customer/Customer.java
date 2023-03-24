@@ -35,17 +35,6 @@ public class Customer {
 
     private String card;
 
-    // when dob is String format
-    public Customer(User user, String dob, String card) {
-        this.user = user;
-        this.dob = parseToLocalDate(dob);
-        this.card = card;
-    }
-
-    public LocalDate parseToLocalDate(String dob) {
-        return LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    }
-
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }

@@ -1,6 +1,7 @@
 package com.example.SpringBootDemo.customer;
 
 import com.example.SpringBootDemo.customer_cart.CustomerCart;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,8 @@ import java.util.List;
 @Setter
 public class CustomerDTO {
 
-    private Long customerId;
+    @JsonProperty("customer_id")
+    private Long id;
     private String username;
     private LocalDate dob;
     private Integer age;

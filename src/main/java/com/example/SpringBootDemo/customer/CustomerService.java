@@ -1,13 +1,10 @@
 package com.example.SpringBootDemo.customer;
 
-import com.example.SpringBootDemo.customer_cart.CustomerCartRepository;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.ValidationFailException;
 import com.example.SpringBootDemo.user.User;
 import com.example.SpringBootDemo.user.UserService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,30 +19,21 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CustomerService {
 
-    private final ModelMapper modelMapper;
+    private final CustomerDTOMapper customerDTOMapper;
     private final UserService userService;
     private final CustomerRepository customerRepository;
-    private final CustomerCartRepository customerCartRepository;
 
     public CustomerDTO getCustomerById(long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-        CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
-        customerDTO.setCart(customerCartRepository.findByCustomer(customer));
-        return customerDTO;
+        return customerDTOMapper.apply(customer);
     }
 
     public List<CustomerDTO> getAllCustomers() {
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return customerRepository.findAll()
                 .stream()
-                .map(customer -> {
-                    CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
-                    customerDTO.setCart(customerCartRepository.findByCustomer(customer));
-                    return customerDTO;
-                })
+                .map(customerDTOMapper)
                 .collect(Collectors.toList());
     }
 
