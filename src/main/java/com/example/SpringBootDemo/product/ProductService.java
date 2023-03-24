@@ -67,12 +67,12 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateMultipleProduct(List<ProductDTO> listProduct) {
+    public void updateMultipleProduct(List<Product> listProduct) {
         String errorMsg = listProduct.stream().map(product -> {
-            Product oldProduct = productRepository.findByName(product.getOldProductName())
-                    .orElseThrow(() -> new NotFoundException(String.format("Product Name:{%s} is not found", product.getOldProductName())));
+            Product oldProduct = productRepository.findById(product.getId())
+                    .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%s} is not found", product.getId())));
 
-            return updateProduct(oldProduct, product.getNewProduct());
+            return updateProduct(oldProduct, product);
         }).filter(Objects::nonNull).collect(Collectors.joining(", "));
 
         if (!errorMsg.isEmpty()) {

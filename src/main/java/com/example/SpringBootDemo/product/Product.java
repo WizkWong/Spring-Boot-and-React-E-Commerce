@@ -1,5 +1,6 @@
 package com.example.SpringBootDemo.product;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,8 +27,9 @@ public class Product {
             name = "id",
             updatable = false
     )
-    Long id;
-    String name;
-    Double price;
-    LocalDateTime created_datetime;
+    @JsonProperty("product_id")
+    private Long id;
+    private String name;
+    private Double price;
+    private LocalDateTime created_datetime;
 }

@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public void updateMultipleProduct(@RequestBody List<ProductDTO> listProduct) {
+    public void updateMultipleProduct(@RequestBody List<Product> listProduct) {
         productService.updateMultipleProduct(listProduct);
     }
 
