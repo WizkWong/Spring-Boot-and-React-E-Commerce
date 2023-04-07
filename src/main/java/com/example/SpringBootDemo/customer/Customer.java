@@ -38,7 +38,7 @@ public class Customer {
     }
 
     public void setDob(String dob) {
-        this.dob = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        this.dob = LocalDate.parse(dob, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     public Integer getAge() {

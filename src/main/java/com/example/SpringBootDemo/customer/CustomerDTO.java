@@ -24,7 +24,7 @@ public class CustomerDTO {
     private List<CustomerCart> cart;
 
     public String getDob() {
-        return dob.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return dob.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     public Integer getAge() {
