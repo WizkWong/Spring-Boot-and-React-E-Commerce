@@ -33,8 +33,6 @@ public class Customer {
     @Transient
     private Integer age;
 
-    private String card;
-
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }

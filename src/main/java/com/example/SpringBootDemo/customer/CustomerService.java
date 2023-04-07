@@ -72,25 +72,15 @@ public class CustomerService {
         if (!Objects.equals(oldCustomer.getDob(), customer.getDob())) {
             oldCustomer.setDob(customer.getDob());
         }
-
-        if (!Objects.equals(oldCustomer.getCard(), customer.getCard())) {
-            oldCustomer.setCard(customer.getCard());
-        }
     }
 
     public void validateCustomer(Customer customer) {
         StringBuilder errorMsg = userService.validateUser(customer.getUser());
 
         LocalDate dob = customer.getDob();
-        String card = customer.getCard();
 
         if (dob == null) {
             errorMsg.append("Date of birth cannot be empty; ");
-        }
-
-        // need to modify that add card class
-        if (card == null || card.length() <= 0) {
-            errorMsg.append("Card cannot be empty or is not valid; ");
         }
 
         if (!errorMsg.isEmpty()) {
