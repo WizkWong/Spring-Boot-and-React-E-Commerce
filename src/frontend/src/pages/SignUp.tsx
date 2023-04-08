@@ -1,7 +1,7 @@
-import { Form } from "../types/Form";
 import FormInput from "../components/FormInput";
-import { useState } from "react";
+import { FormAttribute } from "../types/UserInterfaces";
 import { Customer } from "../types/User";
+import { useState } from "react";
 import CustomerService from "../services/CustomerService";
 
 // customer sign up to create new customer account
@@ -38,9 +38,7 @@ const SignUp = () => {
       });
   };
 
-  const form: Form = {
-    title: "Sign Up",
-    attribute: [
+  const form: FormAttribute[] = [
       {
         label: "Name",
         type: "text",
@@ -83,15 +81,19 @@ const SignUp = () => {
         value: customer.user.phoneNo,
         onChange: handleChangeUser,
       },
-    ],
-    btnText: "Sign Up",
-    onClick: saveCustomer,
-  };
+    ];
 
   return (
-    <>
+    <div className="max-w-2xl mx-auto my-4 p-8 shadow border-b">
+      <h1 className="font-bold text-3xl tracking-wider">"Sign Up"</h1>
       <FormInput form={form} />
-    </>
+      <button
+        onClick={saveCustomer}
+        className="rounded text-white font-semibold bg-cyan-600 px-3 py-2"
+      >
+        Sign Up
+      </button>
+    </div>
   );
 };
 
