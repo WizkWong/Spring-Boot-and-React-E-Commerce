@@ -51,7 +51,7 @@ const SignUp = () => {
     },
   ];
 
-  return <SignUpForm form={form} bttAction={saveCustomer} />;
+  return <SignUpForm form={form} btnAction={saveCustomer} />;
 };
 
 export default SignUp;

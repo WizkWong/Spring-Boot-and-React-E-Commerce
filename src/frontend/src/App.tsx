@@ -16,7 +16,6 @@ function App() {
         {shouldDisplayNavbar && <Navbar />}
         <Routes>
           <Route index element={<Home />}></Route>
-          <Route path="/" element={<Home />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
         </Routes>
     </>
