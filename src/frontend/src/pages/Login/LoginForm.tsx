@@ -6,12 +6,12 @@ const LoginForm = ({ form, btnAction }: { form: FormAttribute[], btnAction: (e: 
   const navigate = useNavigate();
   return (
     <>
-      <h1
+      <button
         className="ml-10 mt-5 font-bold text-2xl tracking-wider hover:cursor-pointer"
         onClick={() => navigate("/")}
       >
         {import.meta.env.VITE_WEBSITE_TITLE}
-      </h1>
+      </button>
       <div className="max-w-2xl mx-auto my-4 p-8 shadow border-b">
         <h1 className="font-bold text-3xl tracking-wider">Login</h1>
         <FormInput form={form} />
