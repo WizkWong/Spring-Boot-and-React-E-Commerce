@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "api/v1/customer")
+@RequestMapping(path = "/customer")
 public class CustomerController {
 
     private final CustomerService customerService;

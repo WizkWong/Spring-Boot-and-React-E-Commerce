@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "api/v1/customer/{id}/cart")
+@RequestMapping(path = "/customer/{id}/cart")
 public class CustomerCartController {
 
     private final CustomerCartService customerCartService;
