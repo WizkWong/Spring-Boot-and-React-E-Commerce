@@ -3,6 +3,7 @@ package com.example.SpringBootDemo.customer;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.ValidationFailException;
 import com.example.SpringBootDemo.user.User;
+import com.example.SpringBootDemo.user.UserRole;
 import com.example.SpringBootDemo.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,7 @@ public class CustomerService {
         validateCustomer(customer);
 
         // set staff and superuser to false
-        customer.getUser().setStaff(false);
-        customer.getUser().setSuperuser(false);
+        customer.getUser().setRole(UserRole.CUSTOMER);
 
         // create and save user first
         User user = userService.createUser(customer.getUser());
