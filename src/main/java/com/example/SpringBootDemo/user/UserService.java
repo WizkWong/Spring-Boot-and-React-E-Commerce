@@ -3,6 +3,7 @@ package com.example.SpringBootDemo.user;
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User getUserById(long id) {
         return userRepository.findById(id)
@@ -35,6 +37,7 @@ public class UserService {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new DuplicateException("User is taken");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreated_datetime(LocalDateTime.now());
 
         userRepository.save(user);

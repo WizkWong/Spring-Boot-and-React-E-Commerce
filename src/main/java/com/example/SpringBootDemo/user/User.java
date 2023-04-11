@@ -46,16 +46,11 @@ public class User {
     private String phoneNo;
 
     @Column(
-            name = "staff",
+            name = "role",
             nullable = false
     )
-    private Boolean staff;
-
-    @Column(
-            name = "superuser",
-            nullable = false
-    )
-    private Boolean superuser;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Column(
             name = "created_datetime",
