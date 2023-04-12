@@ -1,4 +1,4 @@
-package com.example.SpringBootDemo.security;
+package com.example.SpringBootDemo.security.userdetails;
 
 import com.example.SpringBootDemo.user.User;
 import lombok.AllArgsConstructor;

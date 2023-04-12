@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /src/main/resources/testdata.json
+src/main/java/com/example/SpringBootDemo/security/jwt/JwtSecret.java
 
 ### STS ###
 #.apt_generated
