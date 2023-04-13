@@ -4,5 +4,6 @@ export interface FormAttribute {
   type: string;
   name: string;
   value?: any;
+  errorMsg?: string;
   readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

@@ -10,3 +10,8 @@ export interface Customer{
   user: User
   dob: string,
 }
+
+export interface CustomerAuth{
+  username: string,
+  password: string
+}

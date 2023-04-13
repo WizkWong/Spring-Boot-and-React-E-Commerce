@@ -7,10 +7,10 @@ const Login = () => {
 
   const form: FormAttribute[] = [
     {
-      label: "Email",
-      type: "email",
-      name: "email",
-      value: customerAuth.email,
+      label: "Username",
+      type: "text",
+      name: "username",
+      value: customerAuth.username,
       onChange: handleChange,
     },
     {
