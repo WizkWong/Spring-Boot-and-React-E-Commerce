@@ -3,7 +3,7 @@ import LoginForm from "./LoginForm";
 import useLogin from "./useLogin";
 
 const Login = () => {
-  const [customerAuth, handleChange, loginAuth] = useLogin();
+  const [customerAuth, formErrors, handleChange, loginAuth] = useLogin();
 
   const form: FormAttribute[] = [
     {
@@ -22,7 +22,7 @@ const Login = () => {
     },
   ];
 
-  return <LoginForm form={form} btnAction={loginAuth} />;
+  return <LoginForm form={form} errorMsg={formErrors} btnAction={loginAuth} />;
 };
 
 export default Login;
