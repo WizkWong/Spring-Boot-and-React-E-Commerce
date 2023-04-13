@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import search from "../assets/search.svg";
 
 const Navbar = () => {
@@ -8,8 +7,6 @@ const Navbar = () => {
     "Accessories",
     "Technology",
   ];
-
-  const navigate = useNavigate();
 
   return (
     <nav>
@@ -24,8 +21,8 @@ const Navbar = () => {
           ></img>
         </div>
         <div className="flex-none flex items-center">
-          <p className="px-6 hover:cursor-pointer" onClick={() => navigate("/login")}>Login</p>
-          <p className="px-6 hover:cursor-pointer" onClick={() => navigate("/signup")}>Sign Up</p>
+          <a className="px-6 hover:cursor-pointer" href="/login">Login</a>
+          <a className="px-6 hover:cursor-pointer" href="/signup">Sign Up</a>
         </div>
       </div>
       <div className="flex items-center bg-gray-100 py-1">
