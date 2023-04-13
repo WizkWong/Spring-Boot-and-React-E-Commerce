@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CustomerService from "../../services/CustomerService";
 import { CustomerAuth } from "../../types/User";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const useSignUp = () => {
   const [customerAuth, setCustomerAuth] = useState<CustomerAuth>({
@@ -11,7 +12,7 @@ const useSignUp = () => {
 
   const [formErrors, setFormErrors] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
-
+  const [cookies, setCookies] = useCookies();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +39,9 @@ const useSignUp = () => {
       CustomerService.login(customerAuth)
         .then((response) => {
           console.log(response);
+          if (response.data.token) {
+            setCookies("authToken", response.data.token)
+          }
           navigate("/");
         })
         .catch((error) => {
