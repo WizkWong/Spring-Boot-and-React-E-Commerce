@@ -6,8 +6,6 @@ import com.example.SpringBootDemo.user.User;
 import com.example.SpringBootDemo.user.UserRole;
 import com.example.SpringBootDemo.user.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +36,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<Customer> createCustomer(Customer customer) {
+    public Customer createCustomer(Customer customer) {
         // validate user and customer object
         validateCustomer(customer);
 
@@ -51,9 +49,8 @@ public class CustomerService {
         // create and save customer
         customer.setId(user.getId());
         customer.setUser(user);
-        customer = customerRepository.save(customer);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+        return customerRepository.save(customer);
     }
 
     @Transactional

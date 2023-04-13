@@ -3,8 +3,6 @@ package com.example.SpringBootDemo.product;
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,15 +26,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public ResponseEntity<Product> createProduct(Product product) {
+    public Product createProduct(Product product) {
         if (productRepository.findByName(product.getName()).isPresent()) {
             throw new DuplicateException(String.format("Product Name:{%s} is taken", product.getName()));
         }
 
         product.setCreated_datetime(LocalDateTime.now());
 
-        product = productRepository.save(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+        return productRepository.save(product);
     }
 
     @Transactional

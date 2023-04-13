@@ -18,17 +18,11 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody Customer customer) {
-        AuthenticationResponse response;
-        return (response = authenticationService.register(customer)) != null ?
-                ResponseEntity.status(HttpStatus.CREATED).body(response)
-                :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(customer));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok().body(
-                authenticationService.authenticate(request)
-        );
+        return ResponseEntity.ok().body(authenticationService.authenticate(request));
     }
 }

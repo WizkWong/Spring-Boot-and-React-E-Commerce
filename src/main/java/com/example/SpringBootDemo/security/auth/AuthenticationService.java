@@ -5,8 +5,6 @@ import com.example.SpringBootDemo.customer.CustomerService;
 import com.example.SpringBootDemo.security.jwt.JwtService;
 import com.example.SpringBootDemo.security.userdetails.CustomUserDetails;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,13 +21,10 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse register(Customer customer) {
-        ResponseEntity<Customer> responseCustomer = customerService.createCustomer(customer);
+        Customer newCustomer = customerService.createCustomer(customer);
 
-        if (responseCustomer.getStatusCode() != HttpStatus.CREATED) {
-            return null;
-        }
         final String jwtToken = jwtService.generateToken(
-                new CustomUserDetails(responseCustomer.getBody().getUser())
+                new CustomUserDetails(newCustomer.getUser())
         );
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
