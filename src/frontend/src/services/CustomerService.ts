@@ -1,9 +1,9 @@
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { Customer } from "../types/User";
+import { Customer, CustomerAuth } from "../types/User";
 
 class CustomerService {
-  static instance: CustomerService;
+  private static instance: CustomerService;
 
   private constructor() {}
 
@@ -15,9 +15,14 @@ class CustomerService {
     return CustomerService.instance;
   }
 
+  // login
+  login(customer: CustomerAuth): Promise<AxiosResponse<any, any>> {
+    return axios.post(`${import.meta.env.VITE_AUTH_API_BASE_URL}/authenticate`, customer)
+  }
+
   // create new customer
   createCustomer(customer: Customer): Promise<AxiosResponse<any, any>> {
-    return axios.post(import.meta.env.VITE_CUSTOMER_API_BASE_URL, customer)
+    return axios.post(`${import.meta.env.VITE_AUTH_API_BASE_URL}/register`, customer)
   }
 
 }
