@@ -2,7 +2,15 @@ import { FormAttribute } from "../../types/UserInterfaces";
 import FormInput from "../../components/FormInput";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = ({ form, errorMsg, btnAction }: { form: FormAttribute[], errorMsg: string, btnAction: (e: React.MouseEvent<HTMLElement>) => void }) => {
+const LoginForm = ({
+  form,
+  errorMsg,
+  btnAction,
+}: {
+  form: FormAttribute[];
+  errorMsg: string;
+  btnAction: (e: React.MouseEvent<HTMLElement>) => void;
+}) => {
   const navigate = useNavigate();
   return (
     <>

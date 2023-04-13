@@ -43,7 +43,7 @@ const useSignUp = () => {
       errors.password = "Password is required";
     } else if (customer.user.password.length < 8) {
       errors.confirmPassword = "Password must be at least 8 characters";
-    }else if (customer.user.password !== customer.user.confirmPassword) {
+    } else if (customer.user.password !== customer.user.confirmPassword) {
       errors.confirmPassword = "Confirm Password must be same as Password";
     }
 
@@ -80,10 +80,10 @@ const useSignUp = () => {
         })
         .catch((error) => {
           if (error.response.data.message === "User is taken") {
-            setFormErrors({...formErrors, username: "Username is taken"})
+            setFormErrors({ ...formErrors, username: "Username is taken" });
           } else {
             console.log(error);
-            alert("The server has occur an error, please try again next time")
+            alert("The server has occur an error, please try again next time");
           }
         });
     }

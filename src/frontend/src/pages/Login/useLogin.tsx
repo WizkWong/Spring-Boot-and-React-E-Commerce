@@ -42,10 +42,10 @@ const useSignUp = () => {
         })
         .catch((error) => {
           if (error.response.status === 403) {
-            setFormErrors("Fail to login, invalid username or password")
+            setFormErrors("Fail to login, invalid username or password");
           } else {
             console.log(error);
-            alert("The server has occur an error, please try again next time")
+            alert("The server has occur an error, please try again next time");
           }
         });
     }

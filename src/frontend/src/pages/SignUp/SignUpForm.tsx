@@ -1,4 +1,4 @@
-import { FormAttribute } from "../../types/UserInterfaces"
+import { FormAttribute } from "../../types/UserInterfaces";
 import FormValidation from "../../components/FormValidation";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +23,7 @@ const SignUpForm = ({ form, btnAction }: { form: FormAttribute[], btnAction: (e:
         </button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SignUpForm
+export default SignUpForm;

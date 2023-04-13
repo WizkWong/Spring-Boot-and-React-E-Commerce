@@ -4,7 +4,13 @@ import useSignUp from "./useSignUp";
 
 // customer sign up to create new customer account
 const SignUp = () => {
-  const [customer, formErrors, handleChangeUser, handleChangeDob, saveCustomer] = useSignUp()
+  const [
+    customer,
+    formErrors,
+    handleChangeUser,
+    handleChangeDob,
+    saveCustomer,
+  ] = useSignUp();
 
   const form: FormAttribute[] = [
     {
@@ -13,7 +19,7 @@ const SignUp = () => {
       name: "username",
       value: customer.user.username,
       onChange: handleChangeUser,
-      errorMsg: formErrors.username
+      errorMsg: formErrors.username,
     },
     {
       label: "Password",
@@ -21,7 +27,7 @@ const SignUp = () => {
       name: "password",
       value: customer.user.password,
       onChange: handleChangeUser,
-      errorMsg: formErrors.password
+      errorMsg: formErrors.password,
     },
     {
       label: "Confirm Password",
@@ -29,7 +35,7 @@ const SignUp = () => {
       name: "confirmPassword",
       value: customer.user.confirmPassword,
       onChange: handleChangeUser,
-      errorMsg: formErrors.confirmPassword
+      errorMsg: formErrors.confirmPassword,
     },
     {
       label: "Date Of Birth",
@@ -37,7 +43,7 @@ const SignUp = () => {
       name: "dob",
       value: customer.dob,
       onChange: handleChangeDob,
-      errorMsg: formErrors.dob
+      errorMsg: formErrors.dob,
     },
     {
       label: "Email",
@@ -45,7 +51,7 @@ const SignUp = () => {
       name: "email",
       value: customer.user.email,
       onChange: handleChangeUser,
-      errorMsg: formErrors.email
+      errorMsg: formErrors.email,
     },
     {
       label: "Phone Number",
@@ -53,7 +59,7 @@ const SignUp = () => {
       name: "phoneNo",
       value: customer.user.phoneNo,
       onChange: handleChangeUser,
-      errorMsg: formErrors.phoneNo
+      errorMsg: formErrors.phoneNo,
     },
   ];
 

@@ -27,4 +27,4 @@ class CustomerService {
 
 }
 
-export default CustomerService.getInstance()
+export default CustomerService.getInstance();
