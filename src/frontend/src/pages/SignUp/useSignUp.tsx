@@ -79,7 +79,12 @@ const useSignUp = () => {
           navigate("/");
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.data.message === "User is taken") {
+            setFormErrors({...formErrors, username: "Username is taken"})
+          } else {
+            console.log(error);
+            alert("The server has occur an error, please try again next time")
+          }
         });
     }
   }, [formErrors]);
