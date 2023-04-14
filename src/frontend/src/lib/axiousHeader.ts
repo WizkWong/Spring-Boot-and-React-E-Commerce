@@ -1,11 +1,10 @@
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { httpHeaders } from "../types/Http";
 
-export function setAuthorization(): { headers: { Authorization: string } } {
+export function setAuthorizationHeader(): httpHeaders | undefined {
   const [cookies] = useCookies();
-  const navigate = useNavigate();
   if (!cookies.authToken) {
-    navigate("/login");
+    return undefined;
   }
   return {
     headers: {
@@ -14,7 +13,7 @@ export function setAuthorization(): { headers: { Authorization: string } } {
   };
 }
 
-export function checkAuthToken(): boolean {
+export function hasAuthToken(): boolean {
   const [cookies] = useCookies();
   if (cookies.authToken) {
     return true;
