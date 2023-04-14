@@ -53,7 +53,8 @@ const useSignUp = () => {
           }
         });
     }
-  }, [formErrors]);
+  }, [formErrors, isSubmit]); 
+  // isSubmit is needed because formErrors and validation return are both "" and is same, so does not set the value
 
   return [customerAuth, formErrors, handleChange, loginAuth] as const;
 };
