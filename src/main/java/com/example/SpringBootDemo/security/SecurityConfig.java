@@ -28,8 +28,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        /*
+        cors() is needed, or else get cors policy error: "Response to preflight request doesn't pass access control check"
+        source link:
+        https://www.baeldung.com/spring-security-cors-preflight
+        https://stackoverflow.com/questions/53605255/spring-boot-jwt-cors-with-angular-6
+        */
         http
-                .csrf().disable()
+                .cors()
+                .and()
+                .csrf()
+                .disable()
                 .authorizeHttpRequests()
                 .antMatchers("/auth/**")
                 .permitAll()
