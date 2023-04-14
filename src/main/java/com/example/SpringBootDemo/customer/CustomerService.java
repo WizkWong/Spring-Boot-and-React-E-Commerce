@@ -29,6 +29,13 @@ public class CustomerService {
         return customerDTOMapper.apply(customer);
     }
 
+    public CustomerDTO getCustomerByUsername(String username) {
+        Customer customer = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(String.format("Customer Username:{%s} is not found", username)));
+
+        return customerDTOMapper.apply(customer);
+    }
+
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll()
                 .stream()
