@@ -73,7 +73,7 @@ const useSignUp = () => {
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      CustomerService.createCustomer(customer)
+      CustomerService.register(customer)
         .then((response) => {
           console.log(response);
           navigate("/");

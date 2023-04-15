@@ -1,10 +1,10 @@
 import { useCookies } from "react-cookie";
 import { httpHeaders } from "../types/Http";
 
-export function setAuthorizationHeader(): httpHeaders | undefined {
+export function setAuthorizationHeader(): httpHeaders {
   const [cookies] = useCookies();
   if (!cookies.authToken) {
-    return undefined;
+    throw new Error("Authorization token does not exist");
   }
   return {
     headers: {
