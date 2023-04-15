@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Customer, CustomerValidation } from "../../types/User";
 import CustomerService from "../../services/CustomerService";
 import { useNavigate } from "react-router-dom";
-import isBefore from "../../utils.ts/isBefore";
+import isBefore from "../../utils/isBefore";
 
 const useSignUp = () => {
   const [customer, setCustomer] = useState<Customer>({
