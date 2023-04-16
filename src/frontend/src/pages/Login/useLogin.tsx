@@ -38,7 +38,6 @@ const useSignUp = () => {
     if (formErrors.length === 0 && isSubmit) {
       CustomerService.login(customerAuth)
         .then((response) => {
-          console.log(response);
           if (response.data.token) {
             setCookies("authToken", response.data.token)
           }

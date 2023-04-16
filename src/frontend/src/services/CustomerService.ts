@@ -19,11 +19,10 @@ class CustomerService {
     return CustomerService.instance;
   }
 
-  // login
-  login(customer: CustomerAuth): Promise<AxiosResponse<any, any>> {
+  login(customerAuth: CustomerAuth): Promise<AxiosResponse<any, any>> {
     return axios.post(
       `${import.meta.env.VITE_AUTH_API_BASE_URL}/authenticate`,
-      customer
+      customerAuth
     );
   }
 
@@ -40,12 +39,9 @@ class CustomerService {
     );
   }
 
-  getProfile() {
-    const navigate = useNavigate();
-    if (!hasAuthToken()) {
-      navigate("/login");
-    }
-    axios.get(
+  // get current user of Customer profile
+  getProfile(): Promise<AxiosResponse<any, any>> {
+    return axios.get(
       `${import.meta.env.VITE_AUTH_API_BASE_URL}/profile`,
       setAuthorizationHeader()
     );
