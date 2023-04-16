@@ -4,10 +4,7 @@ import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp/SignUp";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
-import { hasAuthToken } from "./lib/checkCookies";
-import { useNavigate } from "react-router-dom";
-import CustomerService from "./services/CustomerService";
-import { useCookies } from "react-cookie";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const location = useLocation();
@@ -18,30 +15,6 @@ function App() {
     location.pathname.includes(path)
   );
 
-  const navigate = useNavigate();
-
-  const [cookies, setCookies] = useCookies();
-
-  const isLogin = (): boolean => {
-    if (!hasAuthToken()) {
-      navigate("/login");
-      return false;
-    }
-
-    // get user data, if error probably means authToken is expired, so navigate to login page
-    CustomerService.getProfile()
-      .then((response) => {
-        setCookies("userProfile", response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        navigate("/login");
-        return false;
-      });
-
-    return true;
-  };
-
   return (
     <>
       {shouldDisplayNavbar && <Navbar />}
@@ -49,12 +22,11 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        {isLogin() && (
-          <>
-            <Route path="/profile" element={<h1>Your profile</h1>} />
-            <Route path="/cart" element={<h1>Your cart</h1>} />
-          </>
-        )}
+        {/* required login */}
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/profile" element={<h1>Your profile</h1>} />
+          <Route path="/cart" element={<h1>Your cart</h1>} />
+        </Route>
       </Routes>
     </>
   );

@@ -10,7 +10,7 @@ export function hasAuthToken(): boolean {
 
 export function hasProfileToken(): boolean {
   const [cookies] = useCookies();
-  if (cookies.profile) {
+  if (cookies.userProfile) {
     return true;
   }
   return false;
