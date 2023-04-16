@@ -12,11 +12,3 @@ export function setAuthorizationHeader(): httpHeaders {
     },
   };
 }
-
-export function hasAuthToken(): boolean {
-  const [cookies] = useCookies();
-  if (cookies.authToken) {
-    return true;
-  }
-  return false;
-}

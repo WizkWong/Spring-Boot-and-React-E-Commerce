@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 import { Customer, CustomerAuth } from "../types/User";
 import { setAuthorizationHeader } from "../lib/axiousHeader";
 import { useNavigate } from "react-router-dom";
-import { hasAuthToken } from "../lib/axiousHeader";
+import { hasAuthToken } from "../lib/checkCookies";
 import { useCookies } from "react-cookie";
 
 class CustomerService {
