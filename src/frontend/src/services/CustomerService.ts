@@ -2,9 +2,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { Customer, CustomerAuth } from "../types/User";
 import { setAuthorizationHeader } from "../lib/axiousHeader";
-import { useNavigate } from "react-router-dom";
-import { hasAuthToken } from "../lib/checkCookies";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 class CustomerService {
   private static instance: CustomerService;
@@ -27,8 +25,8 @@ class CustomerService {
   }
 
   logout(): void {
-    const [cookie, setCookie, removeCookie] = useCookies();
-    removeCookie("authToken");
+    const cookies = new Cookies();
+    cookies.remove("authToken");
   }
 
   // create new customer

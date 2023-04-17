@@ -1,14 +1,16 @@
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import { httpHeaders } from "../types/Http";
+import { hasAuthToken } from "./checkCookies";
+
+const cookies = new Cookies();
 
 export function setAuthorizationHeader(): httpHeaders {
-  const [cookies] = useCookies();
-  if (!cookies.authToken) {
+  if (!hasAuthToken()) {
     throw new Error("Authorization token does not exist");
   }
   return {
     headers: {
-      Authorization: `Bearer ${cookies.authToken}`,
+      Authorization: `Bearer ${cookies.get("authToken")}`,
     },
   };
 }

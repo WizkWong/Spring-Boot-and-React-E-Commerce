@@ -1,11 +1,11 @@
 import { hasAuthToken, hasProfileToken } from "../lib/checkCookies";
 import { Navigate, Outlet, redirect, useNavigate } from "react-router-dom";
 import CustomerService from "../services/CustomerService";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import setExpireDate from "../utils/setExpireDate";
 
 const ProtectedRoute = () => {
-  const [cookies, setCookies] = useCookies();
+  const cookie = new Cookies();
   const navigate = useNavigate();
   
   if (!hasAuthToken()) {
@@ -16,8 +16,8 @@ const ProtectedRoute = () => {
     // get user data, if error probably means authToken is expired, so navigate to login page
     const fetchData = async () => {
       try {
-        const data = await CustomerService.getProfile();
-        setCookies("userProfile", data, {
+        const response = await CustomerService.getProfile();
+        cookie.set("userProfile", response.data, {
           expires: setExpireDate({ minute: 30 }),
         });
       } catch (error) {

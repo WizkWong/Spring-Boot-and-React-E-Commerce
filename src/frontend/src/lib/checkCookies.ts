@@ -1,16 +1,16 @@
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
 
 export function hasAuthToken(): boolean {
-  const [cookies] = useCookies();
-  if (cookies.authToken) {
+  if (cookies.get("authToken")) {
     return true;
   }
   return false;
 }
 
 export function hasProfileToken(): boolean {
-  const [cookies] = useCookies();
-  if (cookies.userProfile) {
+  if (cookies.get("userProfile")) {
     return true;
   }
   return false;
