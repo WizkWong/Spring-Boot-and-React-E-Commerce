@@ -1,3 +1,5 @@
+import { Product } from "./Product";
+
 interface User {
   username: string;
   password: string;
@@ -23,4 +25,19 @@ export interface CustomerValidation {
   email?: string;
   phoneNo?: string;
   dob?: string;
+}
+
+export interface CustomerProfile {
+  customer_id: number;
+  username: string;
+  age: number;
+  dob: string;
+  email: string;
+  phoneNo: string;
+  cart: CustomerCart[];
+}
+
+export interface CustomerCart {
+  product: Product;
+  quantity: number;
 }
