@@ -3,6 +3,7 @@ package com.example.SpringBootDemo.security.auth;
 import com.example.SpringBootDemo.customer.Customer;
 import com.example.SpringBootDemo.customer.CustomerDTO;
 import com.example.SpringBootDemo.customer.CustomerService;
+import com.example.SpringBootDemo.exception.ForbiddenException;
 import com.example.SpringBootDemo.security.jwt.JwtService;
 import com.example.SpringBootDemo.security.userdetails.CustomUserDetails;
 import lombok.AllArgsConstructor;
@@ -43,7 +44,11 @@ public class AuthenticationService {
     }
 
     public CustomerDTO getProfile(String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new ForbiddenException("Authorization Token is not valid");
+        }
         final String username = jwtService.extractUsername(token.substring(7)); // exclude "Bearer "
+
         return customerService.getCustomerByUsername(username);
     }
 }

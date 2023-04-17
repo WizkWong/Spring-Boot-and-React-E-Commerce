@@ -2,10 +2,7 @@ package com.example.SpringBootDemo.user;
 
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
-import com.example.SpringBootDemo.exception.ValidationFailException;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +18,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
 
     public User getUserById(long id) {
         return userRepository.findById(id)
@@ -38,10 +34,6 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        if (user.getPassword() == null || user.getPassword().length() < 8) {
-            throw new ValidationFailException("Password cannot be empty or must at least 8 password length; ");
-        }
-
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new DuplicateException("User is taken");
         }
@@ -63,6 +55,10 @@ public class UserService {
             oldUser.setUsername(newUser.getUsername());
         }
 
+        if (!Objects.equals(oldUser.getPassword(), newUser.getPassword())) {
+            oldUser.setPassword(newUser.getPassword());
+        }
+
         if (!Objects.equals(oldUser.getEmail(), newUser.getEmail())) {
             oldUser.setEmail(newUser.getEmail());
         }
@@ -76,6 +72,7 @@ public class UserService {
         StringBuilder errorMsg = new StringBuilder();
 
         String username = user.getUsername();
+        String password = user.getPassword();
         String email = user.getEmail();
         String phoneNo = user.getPhoneNo();
 
@@ -83,6 +80,10 @@ public class UserService {
 
         if (username == null || username.length() < 4) {
             errorMsg.append("Username cannot be empty or must more than or equal 4 character; ");
+        }
+
+        if (password == null || password.length() < 8) {
+            errorMsg.append("Password cannot be empty or must at least 8 password length; ");
         }
 
         if (email == null || !validEmailAddress.matcher(email).matches()) {
@@ -94,19 +95,6 @@ public class UserService {
         }
 
         return errorMsg;
-    }
-
-    @Transactional
-    public void changePassword(RequestChangePassword request) {
-        User user = userRepository.findById(request.userId())
-                .orElseThrow(() -> new NotFoundException(String.format("User ID:{%d} is not found", request.userId())));
-
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                user.getUsername(),
-                request.oldPassword()
-        ));
-
-        user.setPassword(passwordEncoder.encode(request.newPassword()));
     }
 
 }
