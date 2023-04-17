@@ -27,6 +27,7 @@ class CustomerService {
   logout(): void {
     const cookies = new Cookies();
     cookies.remove("authToken");
+    cookies.remove("userProfile");
   }
 
   // create new customer

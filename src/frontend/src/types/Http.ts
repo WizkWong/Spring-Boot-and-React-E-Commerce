@@ -1,4 +1,4 @@
-export interface httpHeaders {
+export interface HttpHeaders {
   headers: { 
     Authorization?: string 
   }
