@@ -13,6 +13,7 @@ import javax.persistence.*;
 )
 @Data
 public class CustomerCart {
+    @JsonIgnore
     @Id
     @SequenceGenerator(
             name = "carts_sequence",

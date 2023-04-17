@@ -38,8 +38,8 @@ const Navbar = () => {
       // get user data, if error probably means authToken is expired, so navigate to login page
       const fetchData = async () => {
         try {
-          const response = await CustomerService.getProfile();
-          setCookies("userProfile", response.data, {
+          const { data } = await CustomerService.getProfile();
+          setCookies("userProfile", data, {
             expires: setExpireDate({ minute: 30 }),
           });
         } catch (error) {

@@ -45,6 +45,26 @@ class CustomerService {
       setAuthorizationHeader()
     );
   }
+
+  changePassword({
+    customerId,
+    oldPassword,
+    newPassword,
+  }: {
+    customerId: number;
+    oldPassword: string;
+    newPassword: string;
+  }): Promise<AxiosResponse<any, any>> {
+    return axios.post(
+      `${import.meta.env.VITE_AUTH_API_BASE_URL}/changePassword`,
+      {
+        userId: customerId,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      },
+      setAuthorizationHeader()
+    );
+  }
 }
 
 export default CustomerService.getInstance();
