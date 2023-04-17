@@ -31,6 +31,7 @@ public class Product {
     @JsonProperty("product_id")
     private Long id;
     private String name;
+    private String category;
     private Double price;
     private LocalDateTime created_datetime;
 

@@ -46,6 +46,10 @@ public class ProductService {
             product.setName(requestProduct.getName());
         }
 
+        if (!Objects.equals(product.getCategory(), requestProduct.getCategory())) {
+            product.setCategory(requestProduct.getCategory());
+        }
+
         if (!Objects.equals(product.getPrice(), requestProduct.getPrice())) {
             product.setPrice(requestProduct.getPrice());
         }
