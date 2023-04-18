@@ -2,12 +2,15 @@ package com.example.SpringBootDemo.security.auth;
 
 import com.example.SpringBootDemo.customer.Customer;
 import com.example.SpringBootDemo.customer.CustomerDTO;
+import com.example.SpringBootDemo.customer_cart.CustomerCart;
 import com.example.SpringBootDemo.user.RequestChangePassword;
 import com.example.SpringBootDemo.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -35,5 +38,10 @@ public class AuthenticationController {
     @PostMapping("/changePassword")
     public void changePassword(@RequestBody RequestChangePassword request) {
         userService.changePassword(request);
+    }
+
+    @GetMapping("/cart")
+    public List<CustomerCart> getCustomerCart(@RequestHeader(name = "Authorization") String token) {
+        return authenticationService.getCustomerCart(token);
     }
 }

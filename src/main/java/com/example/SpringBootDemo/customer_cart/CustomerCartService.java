@@ -29,6 +29,13 @@ public class CustomerCartService {
         return customerCartRepository.findByCustomer(customer);
     }
 
+    public List<CustomerCart> getCustomerCartByUsername(String username) {
+        Customer customer = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(String.format("Customer username:{%s} is not found", username)));
+
+        return customerCartRepository.findByCustomer(customer);
+    }
+
     @Transactional
     public void addCustomerCart(long id, CustomerCart customerCart) {
         Customer customer = customerRepository.findById(id)
