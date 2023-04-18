@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import SignUp from "./pages/SignUp/SignUp";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Logout from "./pages/Logout";
 
 function App() {
   const location = useLocation();
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/profile" element={<h1>Your profile</h1>} />
           <Route path="/cart" element={<h1>Your cart</h1>} />
+          <Route path="/logout" element={<Logout />} />
         </Route>
       </Routes>
     </>

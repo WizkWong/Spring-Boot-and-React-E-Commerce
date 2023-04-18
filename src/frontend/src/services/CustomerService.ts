@@ -24,10 +24,11 @@ class CustomerService {
     );
   }
 
-  logout(): void {
+  logout(): boolean {
     const cookies = new Cookies();
     cookies.remove("authToken");
     cookies.remove("userProfile");
+    return true;
   }
 
   // create new customer
