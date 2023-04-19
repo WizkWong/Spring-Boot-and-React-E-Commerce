@@ -1,5 +1,6 @@
 package com.example.SpringBootDemo.security;
 
+import com.example.SpringBootDemo.security.filter.CustomerFilter;
 import com.example.SpringBootDemo.security.jwt.JwtAuthenticationFilter;
 import com.example.SpringBootDemo.user.UserRole;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
+    private final CustomerFilter customerFilter;
     private final UserDetailsService userDetailsService;
 
     @Bean
@@ -56,7 +58,8 @@ public class SecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(customerFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
