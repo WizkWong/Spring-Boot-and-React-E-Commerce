@@ -48,16 +48,12 @@ public class AuthenticationService {
     }
 
     public CustomerDTO getProfile(String token) {
-        final String username = this.extractUsername(token);
+        final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
         return customerService.getCustomerByUsername(username);
     }
 
     public List<CustomerCart> getCustomerCart(String token) {
-        final String username = this.extractUsername(token);
+        final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
         return customerCartService.getCustomerCartByUsername(username);
-    }
-
-    private String extractUsername(String token) {
-        return jwtService.extractUsername(token.substring(7)); // exclude "Bearer "
     }
 }

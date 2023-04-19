@@ -22,6 +22,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
+    public String extractBearerToken(String token) {
+        return token.substring(7); // exclude "Bearer "
+    }
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
