@@ -34,11 +34,6 @@ public class AuthenticationController {
         return authenticationService.getProfile(token);
     }
 
-    @PostMapping("/changePassword")
-    public void changePassword(@RequestBody RequestChangePassword request) {
-        userService.changePassword(request);
-    }
-
     @GetMapping("/cart")
     public List<CustomerCart> getCustomerCart(@RequestHeader(name = "Authorization") String token) {
         return authenticationService.getCustomerCart(token);

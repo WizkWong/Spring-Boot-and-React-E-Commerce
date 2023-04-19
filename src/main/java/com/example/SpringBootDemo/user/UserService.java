@@ -3,6 +3,7 @@ package com.example.SpringBootDemo.user;
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.ValidationFailException;
+import com.example.SpringBootDemo.security.jwt.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     public User getUserById(long id) {
         return userRepository.findById(id)
@@ -97,9 +99,10 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(RequestChangePassword request) {
-        User user = userRepository.findById(request.userId())
-                .orElseThrow(() -> new NotFoundException(String.format("User ID:{%d} is not found", request.userId())));
+    public void changePassword(String token, RequestChangePassword request) {
+        final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(String.format("Username:{%s} is not found", username)));
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),

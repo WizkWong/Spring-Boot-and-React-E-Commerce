@@ -5,6 +5,7 @@ import com.example.SpringBootDemo.user.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -41,9 +42,13 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .antMatchers("/auth/**")
-                .permitAll()
-                .antMatchers("/product/**", "/customer/**")
-                .hasAuthority(UserRole.ADMIN.toString())
+                    .permitAll()
+                .antMatchers(HttpMethod.GET, "/product/**")
+                    .permitAll()
+                .antMatchers("/customer/**/cart", "/user/changePassword")
+                    .hasAnyAuthority(UserRole.ADMIN.toString(), UserRole.CUSTOMER.toString())
+                .antMatchers("/product/**", "/customer/**", "/user/**")
+                    .hasAuthority(UserRole.ADMIN.toString())
                 .anyRequest()
                 .authenticated()
                 .and()

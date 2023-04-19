@@ -26,4 +26,9 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
+    @PostMapping("/changePassword")
+    public void changePassword(@RequestHeader(name = "Authorization") String token, @RequestBody RequestChangePassword request) {
+        userService.changePassword(token, request);
+    }
 }
