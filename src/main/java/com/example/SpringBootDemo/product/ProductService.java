@@ -26,6 +26,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> getProductBySearch(String searchTxt) {
+        return productRepository.findByNameContainingIgnoreCase(searchTxt);
+    }
+
     public Product createProduct(Product product) {
         if (productRepository.findByName(product.getName()).isPresent()) {
             throw new DuplicateException(String.format("Product Name:{%s} is taken", product.getName()));
@@ -34,6 +38,19 @@ public class ProductService {
         product.setCreated_datetime(LocalDateTime.now());
 
         return productRepository.save(product);
+    }
+
+    public String createMultipleProduct(List<Product> productList) {
+        return productList.stream().map((product) -> {
+
+            if (productRepository.findByName(product.getName()).isPresent()) {
+                return String.format("Product Name:{%s} is taken", product.getName());
+            }
+            product.setCreated_datetime(LocalDateTime.now());
+            productRepository.save(product);
+            return null;
+
+        }).filter(Objects::nonNull).collect(Collectors.joining(", "));
     }
 
     @Transactional

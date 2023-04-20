@@ -9,8 +9,10 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-//    @Query("FROM ProductEntity WHERE name = ?1")
+//    @Query("FROM Product WHERE name = ?1")
     Optional<Product> findByName(String name);
+
+    List<Product> findByNameContainingIgnoreCase(String name);
 
     List<Product> findByCategory(String category);
 
