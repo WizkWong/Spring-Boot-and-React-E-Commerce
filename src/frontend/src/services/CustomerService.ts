@@ -55,7 +55,7 @@ class CustomerService {
     newPassword: string;
   }): Promise<AxiosResponse<any, any>> {
     return axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/user/changePassword`,
+      `${import.meta.env.VITE_API_BASE_URL}/user/change-password`,
       {
         oldPassword: oldPassword,
         newPassword: newPassword,

@@ -14,17 +14,17 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("auth/register")
+    @PostMapping(path = "auth/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody Customer customer) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(customer));
     }
 
-    @PostMapping("auth/authenticate")
+    @PostMapping(path = "auth/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok().body(authenticationService.authenticate(request));
     }
 
-    @GetMapping("/profile")
+    @GetMapping(path = "/profile")
     public CustomerDTO getProfile(@RequestHeader(name = "Authorization") String token) {
         return authenticationService.getProfile(token);
     }
