@@ -2,7 +2,7 @@ package com.example.SpringBootDemo.user;
 
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
-import com.example.SpringBootDemo.exception.ValidationFailException;
+import com.example.SpringBootDemo.exception.NotValidException;
 import com.example.SpringBootDemo.security.jwt.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +41,7 @@ public class UserService {
 
     public User createUser(User user) {
         if (user.getPassword() == null || user.getPassword().length() < 8) {
-            throw new ValidationFailException("Password cannot be empty or must at least 8 password length; ");
+            throw new NotValidException("Password cannot be empty or must at least 8 password length; ");
         }
 
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {

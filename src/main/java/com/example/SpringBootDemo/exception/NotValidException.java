@@ -4,21 +4,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class ValidationFailException extends RuntimeException{
+public class NotValidException extends RuntimeException{
 
-    public ValidationFailException() {
+    public NotValidException() {
         super();
     }
 
-    public ValidationFailException(String message) {
+    public NotValidException(String message) {
         super(message);
     }
 
-    public ValidationFailException(String message, Throwable cause) {
+    public NotValidException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ValidationFailException(Throwable cause) {
+    public NotValidException(Throwable cause) {
         super(cause);
     }
 }

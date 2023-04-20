@@ -2,6 +2,7 @@ package com.example.SpringBootDemo.product;
 
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
+import com.example.SpringBootDemo.exception.NotValidException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,11 @@ public class ProductService {
     }
 
     public List<Product> getProductBySearch(String searchTxt) {
+        searchTxt = searchTxt.trim();
+
+        if (searchTxt.isEmpty()) {
+            throw new NotValidException("Search parameter cannot be empty!");
+        }
         return productRepository.findByNameContainingIgnoreCase(searchTxt);
     }
 

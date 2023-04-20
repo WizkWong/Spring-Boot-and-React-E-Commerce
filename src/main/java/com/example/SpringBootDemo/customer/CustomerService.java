@@ -1,7 +1,7 @@
 package com.example.SpringBootDemo.customer;
 
 import com.example.SpringBootDemo.exception.NotFoundException;
-import com.example.SpringBootDemo.exception.ValidationFailException;
+import com.example.SpringBootDemo.exception.NotValidException;
 import com.example.SpringBootDemo.user.User;
 import com.example.SpringBootDemo.user.UserRole;
 import com.example.SpringBootDemo.user.UserService;
@@ -88,7 +88,7 @@ public class CustomerService {
         }
 
         if (!errorMsg.isEmpty()) {
-            throw new ValidationFailException(errorMsg.toString());
+            throw new NotValidException(errorMsg.toString());
         }
 
     }
