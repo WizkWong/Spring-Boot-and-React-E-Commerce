@@ -34,7 +34,6 @@ export interface CustomerProfile {
   dob: string;
   email: string;
   phoneNo: string;
-  cart: CustomerCart[];
 }
 
 export interface CustomerCart {

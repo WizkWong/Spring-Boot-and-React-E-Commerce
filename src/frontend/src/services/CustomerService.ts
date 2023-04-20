@@ -42,24 +42,21 @@ class CustomerService {
   // get current user of Customer profile
   getProfile(): Promise<AxiosResponse<any, any>> {
     return axios.get(
-      `${import.meta.env.VITE_AUTH_API_BASE_URL}/profile`,
+      `${import.meta.env.VITE_API_BASE_URL}/profile`,
       setAuthorizationHeader()
     );
   }
 
   changePassword({
-    customerId,
     oldPassword,
     newPassword,
   }: {
-    customerId: number;
     oldPassword: string;
     newPassword: string;
   }): Promise<AxiosResponse<any, any>> {
     return axios.post(
-      `${import.meta.env.VITE_AUTH_API_BASE_URL}/changePassword`,
+      `${import.meta.env.VITE_API_BASE_URL}/user/changePassword`,
       {
-        userId: customerId,
         oldPassword: oldPassword,
         newPassword: newPassword,
       },

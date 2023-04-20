@@ -3,8 +3,6 @@ package com.example.SpringBootDemo.security.auth;
 import com.example.SpringBootDemo.customer.Customer;
 import com.example.SpringBootDemo.customer.CustomerDTO;
 import com.example.SpringBootDemo.customer.CustomerService;
-import com.example.SpringBootDemo.customer_cart.CustomerCart;
-import com.example.SpringBootDemo.customer_cart.CustomerCartService;
 import com.example.SpringBootDemo.security.jwt.JwtService;
 import com.example.SpringBootDemo.security.userdetails.CustomUserDetails;
 import lombok.AllArgsConstructor;
@@ -13,14 +11,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class AuthenticationService {
 
     private final CustomerService customerService;
-    private final CustomerCartService customerCartService;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -50,10 +45,5 @@ public class AuthenticationService {
     public CustomerDTO getProfile(String token) {
         final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
         return customerService.getCustomerByUsername(username);
-    }
-
-    public List<CustomerCart> getCustomerCart(String token) {
-        final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
-        return customerCartService.getCustomerCartByUsername(username);
     }
 }
