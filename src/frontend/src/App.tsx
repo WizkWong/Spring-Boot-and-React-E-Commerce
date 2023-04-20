@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Logout from "./pages/Logout";
+import SearchProduct from "./pages/SearchProduct/SearchProduct";
 
 function App() {
   const location = useLocation();
@@ -23,6 +24,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/product" element={<SearchProduct />} />
         {/* required login */}
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/profile" element={<h1>Your profile</h1>} />

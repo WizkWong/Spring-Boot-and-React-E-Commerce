@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import searchImg from "../../assets/search.svg";
 import { hasAuthToken } from "../../lib/checkCookies";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import Dropdown from "./Dropdown";
 
 const MainNav = () => {
   const [searchTxt, setSearctTxt] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -14,7 +15,7 @@ const MainNav = () => {
 
   const clickSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(searchTxt);
+    navigate(`/product?search=${searchTxt}`);
   };
 
   return (
