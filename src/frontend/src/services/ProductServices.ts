@@ -16,6 +16,10 @@ class ProductServices {
   getProductBySearch(searchTxt: string) {
     return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}?search=${searchTxt}`);
   }
+
+  getProductById(id: number) {
+    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/${id}`);
+  }
 }
 
 export default ProductServices.getInstance();
