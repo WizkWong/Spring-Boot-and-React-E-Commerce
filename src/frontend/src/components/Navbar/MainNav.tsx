@@ -13,8 +13,7 @@ const MainNav = () => {
     setSearctTxt(value);
   };
 
-  const clickSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const clickSearch = () => {
     navigate(`/product?search=${searchTxt}`);
   };
 
