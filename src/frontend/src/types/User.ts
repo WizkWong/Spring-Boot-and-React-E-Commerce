@@ -1,4 +1,4 @@
-import { Product } from "./Product";
+import { ProductType } from "./Product";
 
 interface User {
   username: string;
@@ -37,6 +37,6 @@ export interface CustomerProfile {
 }
 
 export interface CustomerCart {
-  product: Product;
+  product: ProductType;
   quantity: number;
 }
