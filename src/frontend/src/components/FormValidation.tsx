@@ -1,6 +1,6 @@
 import { FormAttribute } from "../types/UserInterfaces";
 
-// generic form design, can be used anywhere but design remain same
+// form with validation
 const FormValidation = ({ form }: { form: FormAttribute[] }) => {
   return (
     <>
