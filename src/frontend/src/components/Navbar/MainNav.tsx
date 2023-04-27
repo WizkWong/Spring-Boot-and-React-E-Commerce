@@ -19,7 +19,7 @@ const MainNav = () => {
 
   return (
     <div className="flex items-center bg-gray-300 py-3 text-xl">
-      <div className="flex-none mx-4">{import.meta.env.VITE_WEBSITE_TITLE}</div>
+      <Link to="" className="flex-none mx-4">{import.meta.env.VITE_WEBSITE_TITLE}</Link>
       <form onSubmit={clickSearch} className="flex-1 flex item-center">
         <input
           className="grow pl-2 py-2"

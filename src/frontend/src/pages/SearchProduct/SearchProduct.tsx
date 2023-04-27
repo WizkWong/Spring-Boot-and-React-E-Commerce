@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ProductType } from "../../types/Product";
 import ProductServices from "../../services/ProductServices";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
+import defaultImg from "../../assets/default.jpg";
 
 const SearchProduct = () => {
   const useQuery = new URLSearchParams(useLocation().search);
@@ -32,10 +33,11 @@ const SearchProduct = () => {
         <div
           key={index}
           className="flex-none m-2 p-2 bg-gray-50 w-[17rem] shadow hover:cursor-pointer"
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
+          onClick={() => {
             navigate(`/product/${product.product_id}`);
           }}
         >
+          <img className="w-full" src={defaultImg} alt="no image"></img>
           <p>{product.name}</p>
           <p>{capitalizeFirstLetter(product.category)}</p>
           <p>
