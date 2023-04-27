@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +44,8 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(1)))
+                // 30 days expired, formula of milliseconds to days
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000L * 30))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
