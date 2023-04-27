@@ -1,11 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import searchImg from "../../assets/search.svg";
 import { hasAuthToken } from "../../lib/checkCookies";
 import { useState } from "react";
 import Dropdown from "./Dropdown";
 
 const MainNav = () => {
-  const [searchTxt, setSearctTxt] = useState("");
+  const useQuery = new URLSearchParams(useLocation().search);
+  const searchParam = useQuery.get("search");
+
+  const [searchTxt, setSearctTxt] = useState(searchParam ? searchParam : "");
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

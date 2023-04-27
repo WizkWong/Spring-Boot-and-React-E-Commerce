@@ -32,7 +32,7 @@ const SearchProduct = () => {
       {productList.map((product, index) => (
         <div
           key={index}
-          className="flex-none m-2 p-2 bg-gray-50 w-[17rem] shadow hover:cursor-pointer"
+          className="flex-none m-2 p-2 bg-gray-50 w-[17rem] border-2 shadow hover:cursor-pointer"
           onClick={() => {
             navigate(`/product/${product.product_id}`);
           }}
