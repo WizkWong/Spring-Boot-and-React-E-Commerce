@@ -5,11 +5,8 @@ import { Link } from "react-router-dom";
 
 const Dropdown = () => {
   const cookies = useContext(NavContext);
-
   const [isOpen, setIsOpen] = useState(false);
-
   const username: string = cookies.userProfile ? cookies.userProfile.username : "user";
-
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

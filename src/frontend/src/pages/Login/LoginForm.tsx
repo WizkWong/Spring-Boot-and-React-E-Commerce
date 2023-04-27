@@ -26,7 +26,7 @@ const LoginForm = ({
         <p className="text-center font-semibold text-red-500">{errorMsg}</p>
         <button
           onClick={btnAction}
-          className="rounded text-white font-semibold bg-cyan-600 px-3 py-2"
+          className="rounded text-white font-semibold bg-cyan-600 px-3 py-2 hover:cursor-pointer"
         >
           Login
         </button>

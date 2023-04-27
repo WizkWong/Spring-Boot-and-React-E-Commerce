@@ -17,7 +17,7 @@ const SignUpForm = ({ form, btnAction }: { form: FormAttribute[], btnAction: (e:
         <FormValidation form={form} />
         <button
           onClick={btnAction}
-          className="rounded text-white font-semibold bg-cyan-600 mt-4 px-3 py-2"
+          className="rounded text-white font-semibold bg-cyan-600 mt-4 px-3 py-2 hover:cursor-pointer"
         >
           Sign Up
         </button>
