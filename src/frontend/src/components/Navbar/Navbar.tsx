@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { hasAuthToken, hasProfileToken } from "../../lib/checkCookies";
 import { useCookies } from "react-cookie";
 import CustomerService from "../../services/CustomerService";
-import setExpireDate from "../../utils/setExpireDate";
 import MainNav from "./MainNav";
 import ProductCategory from "./ProductCategory";
 
@@ -19,9 +18,7 @@ const Navbar = () => {
       const fetchData = async () => {
         try {
           const { data } = await CustomerService.getProfile();
-          setCookies("userProfile", data, {
-            expires: setExpireDate({ minute: 30 }),
-          });
+          setCookies("userProfile", data);
         } catch (error) {
           console.log(error);
           removeCookies("authToken");
