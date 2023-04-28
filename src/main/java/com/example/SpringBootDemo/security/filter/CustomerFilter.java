@@ -55,10 +55,10 @@ public class CustomerFilter extends OncePerRequestFilter {
     }
 
     private Optional<Long> getPathId(String requestURI) {
-        Pattern customerCartURL = Pattern.compile("/customer/[0-9]+/cart", Pattern.CASE_INSENSITIVE);
+        Pattern customerCartURL = Pattern.compile("/customer/[0-9]+/cart.*", Pattern.CASE_INSENSITIVE);
 
         if (customerCartURL.matcher(requestURI).matches()) {
-            String pathId = requestURI.replace("/customer/", "").replace("/cart", "");
+            String pathId = requestURI.substring(10, requestURI.indexOf("/cart"));
             return Optional.of(Long.parseLong(pathId));
         }
         return Optional.empty();
