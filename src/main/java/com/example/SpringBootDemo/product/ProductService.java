@@ -76,6 +76,10 @@ public class ProductService {
         if (!Objects.equals(product.getPrice(), requestProduct.getPrice())) {
             product.setPrice(requestProduct.getPrice());
         }
+
+        if (requestProduct.getImage() != null && !Objects.equals(product.getImage(), requestProduct.getImage())) {
+            product.setPrice(requestProduct.getPrice());
+        }
         return null;
     }
 

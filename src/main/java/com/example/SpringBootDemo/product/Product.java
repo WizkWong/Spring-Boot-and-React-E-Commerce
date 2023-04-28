@@ -33,6 +33,8 @@ public class Product {
     private String name;
     private String category;
     private Double price;
+    @Lob
+    private String image;
     private LocalDateTime created_datetime;
 
     public String getCreated_datetime() {

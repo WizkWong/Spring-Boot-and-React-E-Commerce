@@ -37,7 +37,18 @@ const SearchProduct = () => {
             navigate(`/product/${product.product_id}`);
           }}
         >
-          <img className="w-full" src={defaultImg} alt="no image"></img>
+          <div className="flex w-64 h-64 items-center justify-center">
+            <img
+              className="max-w-full max-h-full"
+              src={
+                product.image
+                  ? `data:image/jpeg;base64,${product.image}`
+                  : defaultImg
+              }
+              alt="no image"
+            ></img>
+          </div>
+
           <p>{product.name}</p>
           <p>{capitalizeFirstLetter(product.category)}</p>
           <p>

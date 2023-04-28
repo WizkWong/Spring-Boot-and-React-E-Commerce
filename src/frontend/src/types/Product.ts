@@ -3,5 +3,6 @@ export interface ProductType {
   name: string;
   category: string;
   price: number;
+  image: string;
   created_datetime?: string;
 }
