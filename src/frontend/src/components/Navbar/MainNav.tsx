@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import searchImg from "../../assets/search.svg";
+import cartImg from "../../assets/cart.png"
 import { hasAuthToken } from "../../lib/checkCookies";
 import { useState } from "react";
 import Dropdown from "./Dropdown";
@@ -42,7 +43,12 @@ const MainNav = () => {
       </form>
       <div className="flex-none flex items-center mx-3">
         {hasAuthToken() ? (
-          <Dropdown />
+          <>
+            <Link to="cart" className="px-3 h-11 rounded-lg border-2 border-transparent hover:border-gray-400">
+              <img className="max-w-full max-h-full" src={cartImg}></img>
+            </Link>
+            <Dropdown />
+          </>
         ) : (
           <>
             <Link to="login" className="mx-5">
