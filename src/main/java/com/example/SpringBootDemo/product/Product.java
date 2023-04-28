@@ -40,4 +40,12 @@ public class Product {
     public String getCreated_datetime() {
         return created_datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
+
+    public void setCreated_datetime(LocalDateTime created_datetime) {
+        this.created_datetime = created_datetime;
+    }
+
+    public void setCreated_datetime(String created_datetime) {
+        this.created_datetime = LocalDateTime.parse(created_datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 }
