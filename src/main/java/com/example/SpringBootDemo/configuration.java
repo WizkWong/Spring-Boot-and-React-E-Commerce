@@ -1,7 +1,5 @@
 package com.example.SpringBootDemo;
 
-import com.example.SpringBootDemo.product.Product;
-import com.example.SpringBootDemo.product.ProductRepository;
 import com.example.SpringBootDemo.user.User;
 import com.example.SpringBootDemo.user.UserRepository;
 import com.example.SpringBootDemo.user.UserRole;
@@ -22,7 +20,8 @@ public class configuration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000")
+                        .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
             }
         };
     }
@@ -38,12 +37,6 @@ public class configuration {
                 user.setCreated_datetime(LocalDateTime.now());
                 userRepository.save(user);
             }
-
-//            Product product = new Product();
-//            product.setName("fries");
-//            product.setPrice(3.0);
-//            product.setCreated_datetime(LocalDateTime.now());
-//            productRepository.save(product);
         };
     }
 
