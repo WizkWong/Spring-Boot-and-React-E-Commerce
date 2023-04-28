@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { Customer, CustomerAuth } from "../types/User";
+import { Customer, CustomerAuth, CustomerCart, CustomerProfile } from "../types/User";
 import { setAuthorizationHeader } from "../lib/axiousHeader";
 import { Cookies } from "react-cookie";
 
@@ -56,6 +56,16 @@ class CustomerService {
       },
       setAuthorizationHeader()
     );
+  }
+
+  addToCart(cartItem: CustomerCart): Promise<AxiosResponse<any, any>> {
+    const cookies = new Cookies();
+    const customer: CustomerProfile = cookies.get("userProfile")
+    return axios.put(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart/add`,
+      cartItem,
+      setAuthorizationHeader()
+    )
   }
 }
 
