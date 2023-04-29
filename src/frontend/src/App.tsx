@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Logout from "./pages/Logout";
 import SearchProduct from "./pages/SearchProduct/SearchProduct";
 import Product from "./pages/Product/Product";
-import CustomerCart from "./pages/CustomerCart/CustomerCart";
+import Cart from "./pages/Cart/Cart";
 
 function App() {
   const location = useLocation();
@@ -31,7 +31,7 @@ function App() {
         {/* required login */}
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/profile" element={<h1>Your profile</h1>} />
-          <Route path="/cart" element={<CustomerCart/>} />
+          <Route path="/cart" element={<Cart/>} />
           <Route path="/logout" element={<Logout />} />
         </Route>
       </Routes>

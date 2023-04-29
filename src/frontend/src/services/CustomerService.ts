@@ -7,7 +7,11 @@ import { Cookies } from "react-cookie";
 class CustomerService {
   private static instance: CustomerService;
 
-  private constructor() {}
+  private readonly cookies: Cookies;
+
+  private constructor() {
+    this.cookies = new Cookies;
+  }
 
   // singleton method
   static getInstance(): CustomerService {
@@ -25,9 +29,8 @@ class CustomerService {
   }
 
   logout(): boolean {
-    const cookies = new Cookies();
-    cookies.remove("authToken");
-    cookies.remove("userProfile");
+    this.cookies.remove("authToken");
+    this.cookies.remove("userProfile");
     return true;
   }
 
@@ -58,9 +61,16 @@ class CustomerService {
     );
   }
 
+  getCart() {
+    const customer: CustomerProfile = this.cookies.get("userProfile")
+    return axios.get(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
+      setAuthorizationHeader()
+    )
+  }
+
   addToCart(cartItem: CustomerCart): Promise<AxiosResponse<any, any>> {
-    const cookies = new Cookies();
-    const customer: CustomerProfile = cookies.get("userProfile")
+    const customer: CustomerProfile = this.cookies.get("userProfile")
     return axios.put(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart/add`,
       cartItem,
