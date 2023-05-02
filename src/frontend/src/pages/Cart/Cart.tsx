@@ -11,6 +11,7 @@ const Cart = () => {
   const [update, isUpdate] = useState(false);
   const [timer, setTimer] = useState(0);
 
+  // fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,25 +24,26 @@ const Cart = () => {
     fetchData();
   }, []);
 
+  // set a timer to request API to update cart
   const startTimer = () => {
     const updateCustomerCart = async () => {
       try {
-        const {status} = await CustomerService.updateCart(cartList);
-        console.log(status)
+        await CustomerService.updateCart(cartList);
       } catch (error) {
         console.log(error);
       }
     };
-    return setTimeout(updateCustomerCart, 5000)
-  }
-  
+    return setTimeout(updateCustomerCart, 5000);
+  };
+
+  // if cartList(quantity change) changes then reset the timer
   useEffect(() => {
     if (update) {
       clearTimeout(timer);
       setTimer(startTimer());
       isUpdate(false);
     }
-  }, [cartList])
+  }, [cartList]);
 
   const totalPrice = cartList.reduce(
     (total, cartItem) => total + cartItem.product.price * cartItem.quantity,
@@ -90,7 +92,9 @@ const Cart = () => {
         </table>
         <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 flex flex-row items-center justify-end">
           <p className="px-8">Sub Total: </p>
-          <p className="px-1 mr-8">{import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}</p>
+          <p className="px-1 mr-8">
+            {import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}
+          </p>
         </div>
       </div>
     </CartContext.Provider>
