@@ -22,7 +22,7 @@ const SearchBar = () => {
     <form onSubmit={clickSearch} className="flex-1 flex item-center">
       <input
         className="grow pl-2 py-2"
-        type="test"
+        type="text"
         name="search"
         value={searchTxt}
         onChange={handleChange}
