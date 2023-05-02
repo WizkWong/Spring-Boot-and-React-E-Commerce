@@ -39,7 +39,8 @@ const useSignUp = () => {
       CustomerService.login(customerAuth)
         .then((response) => {
           if (response.data.token) {
-            cookies.set("authToken", response.data.token)
+            // set 30 days expired
+            cookies.set("authToken", response.data.token, { maxAge: 2628288 })
           }
           navigate("/");
         })
