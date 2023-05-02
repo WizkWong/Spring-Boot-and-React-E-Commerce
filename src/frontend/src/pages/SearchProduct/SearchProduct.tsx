@@ -7,11 +7,11 @@ import defaultImg from "../../assets/default.jpg";
 
 const SearchProduct = () => {
   const useQuery = new URLSearchParams(useLocation().search);
+  const searchTxt = useQuery.get("search");
   const [productList, setProductList] = useState<ProductType[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const searchTxt = useQuery.get("search");
     if (!searchTxt) {
       navigate("/");
       return;
@@ -25,7 +25,7 @@ const SearchProduct = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [searchTxt]);
 
   return (
     <div className="flex flex-row flex-wrap mx-8 my-4 min-w-[54rem]">

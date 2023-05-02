@@ -14,7 +14,8 @@ const SearchBar = () => {
     setSearctTxt(value);
   };
 
-  const clickSearch = () => {
+  const clickSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     navigate(`/product?search=${searchTxt}`);
   };
 
