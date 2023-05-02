@@ -5,10 +5,9 @@ import plusIcon from "../../assets/plus_icon.svg"
 import { CartContext } from "./Cart";
 
 const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: number }) => {
-  const [cartList, setCartList] = useContext(CartContext);
-  
+
+  const [cartList, setCartList, update, isUpdate] = useContext(CartContext);
   const [qty, setQty] = useState(cartItem.quantity);
-  const [update, isUpdate] = useState(false);
 
   useEffect(() => {
     if (update) {
@@ -19,7 +18,6 @@ const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: numbe
       newCartList[index] = cartItem;
       // update the cartList
       setCartList(newCartList);
-      isUpdate(false);
     }
   }, [qty]);
 

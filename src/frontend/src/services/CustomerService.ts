@@ -77,6 +77,15 @@ class CustomerService {
       setAuthorizationHeader()
     )
   }
+
+  updateCart(cartList: CustomerCart[]): Promise<AxiosResponse<any, any>> {
+    const customer: CustomerProfile = this.cookies.get("userProfile")
+    return axios.put(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
+      cartList,
+      setAuthorizationHeader()
+    )
+  }
 }
 
 export default CustomerService.getInstance();

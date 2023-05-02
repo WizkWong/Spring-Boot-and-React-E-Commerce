@@ -8,6 +8,8 @@ export const CartContext = createContext<any>(null);
 
 const Cart = () => {
   const [cartList, setCartList] = useState<CustomerCart[]>([]);
+  const [update, isUpdate] = useState(false);
+  const [timer, setTimer] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,13 +23,33 @@ const Cart = () => {
     fetchData();
   }, []);
 
+  const startTimer = () => {
+    const updateCustomerCart = async () => {
+      try {
+        const {status} = await CustomerService.updateCart(cartList);
+        console.log(status)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    return setTimeout(updateCustomerCart, 5000)
+  }
+  
+  useEffect(() => {
+    if (update) {
+      clearTimeout(timer);
+      setTimer(startTimer());
+      isUpdate(false);
+    }
+  }, [cartList])
+
   const totalPrice = cartList.reduce(
     (total, cartItem) => total + cartItem.product.price * cartItem.quantity,
     0
   );
 
   return (
-    <CartContext.Provider value={[cartList, setCartList]}>
+    <CartContext.Provider value={[cartList, setCartList, update, isUpdate]}>
       <div className="px-8 pb-24 my-4">
         <h1 className="mb-2 text-center text-3xl font-semibold">Your Cart</h1>
         <table className="min-w-full text-lg">
@@ -68,7 +90,7 @@ const Cart = () => {
         </table>
         <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 flex flex-row items-center justify-end">
           <p className="px-8">Sub Total: </p>
-          <p className="px-1 mr-8">{totalPrice.toFixed(2)}</p>
+          <p className="px-1 mr-8">{import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}</p>
         </div>
       </div>
     </CartContext.Provider>
