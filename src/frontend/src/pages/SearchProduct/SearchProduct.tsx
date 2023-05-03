@@ -18,7 +18,7 @@ const SearchProduct = () => {
     }
     const fetchData = async () => {
       try {
-        const { data }: { data: ProductType[] } = await ProductServices.getProductBySearch(searchTxt);
+        const { data } = await ProductServices.getProductBySearch(searchTxt);
         setProductList(data);
       } catch (error) {
         console.log(error);

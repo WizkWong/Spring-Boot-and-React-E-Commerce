@@ -15,7 +15,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data }: { data: CustomerCart[] } = await CustomerService.getCart();
+        const { data } = await CustomerService.getCart();
         setCartList(data);
       } catch (error) {
         console.log(error);

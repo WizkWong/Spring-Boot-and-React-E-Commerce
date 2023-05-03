@@ -1,4 +1,6 @@
 import axios from "axios";
+import { AxiosResponse } from "axios";
+import { ProductType } from "../types/Product";
 
 class ProductServices {
   private static instance: ProductServices;
@@ -13,11 +15,11 @@ class ProductServices {
     return ProductServices.instance;
   }
 
-  getProductBySearch(searchTxt: string) {
+  getProductBySearch(searchTxt: string): Promise<AxiosResponse<ProductType[], any>> {
     return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}?search=${searchTxt}`);
   }
 
-  getProductById(id: number) {
+  getProductById(id: number): Promise<AxiosResponse<ProductType, any>> {
     return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/${id}`);
   }
 }

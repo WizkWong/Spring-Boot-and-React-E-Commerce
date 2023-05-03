@@ -43,7 +43,7 @@ class CustomerService {
   }
 
   // get current user of Customer profile
-  getProfile(): Promise<AxiosResponse<any, any>> {
+  getProfile(): Promise<AxiosResponse<CustomerProfile, any>> {
     return axios.get(
       `${import.meta.env.VITE_API_BASE_URL}/profile`,
       setAuthorizationHeader()
@@ -61,7 +61,7 @@ class CustomerService {
     );
   }
 
-  getCart() {
+  getCart(): Promise<AxiosResponse<CustomerCart[], any>> {
     const customer: CustomerProfile = this.cookies.get("userProfile")
     return axios.get(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
