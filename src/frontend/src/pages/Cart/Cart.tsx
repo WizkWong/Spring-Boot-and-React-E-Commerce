@@ -24,27 +24,34 @@ const Cart = () => {
     fetchData();
   }, []);
 
-  // set a timer to request API to update cart
-  const startTimer = () => {
-    const updateCustomerCart = async () => {
-      try {
-        const { status } = await CustomerService.updateCart(cartList);
-        console.log(status);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    return setTimeout(updateCustomerCart, 1500);
+  // request API to update cart
+  const updateCustomerCart = async () => {
+    try {
+      const { status } = await CustomerService.updateCart(cartList);
+      console.log(status);
+    } catch (error) {
+      console.log(error);
+    }
+    setTimer(0);
   };
 
   // if cartList(quantity change) changes then reset the timer
   useEffect(() => {
     if (update) {
       clearTimeout(timer);
-      setTimer(startTimer());
+      // set a timer to execute update cart function
+      setTimer(setTimeout(updateCustomerCart, 1500));
       isUpdate(false);
     }
   }, [cartList]);
+
+  // execute update cart function if the user refresh the browser and its function is not execute yet
+  window.onbeforeunload = () => {
+    if (timer !== 0) {
+      clearTimeout(timer);
+      updateCustomerCart();
+    }
+  };
 
   const totalPrice = cartList.reduce(
     (total, cartItem) => total + cartItem.product.price * cartItem.quantity,
@@ -91,7 +98,7 @@ const Cart = () => {
             ))}
           </tbody>
         </table>
-        <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 flex flex-row items-center justify-end">
+        <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 text-lg flex flex-row items-center justify-end">
           <p className="px-8">Sub Total: </p>
           <p className="px-1 mr-8">
             {import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}
