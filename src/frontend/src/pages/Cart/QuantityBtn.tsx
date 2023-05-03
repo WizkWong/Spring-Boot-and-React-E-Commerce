@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { CustomerCart } from "../../types/User";
-import minusIcon from "../../assets/minus_icon.svg"
-import plusIcon from "../../assets/plus_icon.svg"
+import minusIcon from "../../assets/minus_icon.svg";
+import plusIcon from "../../assets/plus_icon.svg";
 import { CartContext } from "./Cart";
 
 const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: number }) => {
@@ -21,21 +21,23 @@ const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: numbe
     }
   }, [qty]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    if (!isNaN(value) && value <= 99) {
-      setQty(value);
+  const setQuantity = (quantity: number) => {
+    if (!isNaN(quantity) && quantity >= 0 && quantity <= 99) {
+      setQty(quantity);
       isUpdate(true);
     }
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setQuantity(value);
+  };
   const minusQty = () => {
-    setQty(qty - 1);
-    isUpdate(true);
+    setQuantity(qty - 1);
   };
   const plusQty = () => {
-    setQty(qty + 1);
-    isUpdate(true);
-  }
+    setQuantity(qty + 1);
+  };
   return (
     <div className="flex flex-row items-center justify-center">
       <button

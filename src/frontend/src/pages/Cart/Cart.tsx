@@ -28,12 +28,13 @@ const Cart = () => {
   const startTimer = () => {
     const updateCustomerCart = async () => {
       try {
-        await CustomerService.updateCart(cartList);
+        const { status } = await CustomerService.updateCart(cartList);
+        console.log(status);
       } catch (error) {
         console.log(error);
       }
     };
-    return setTimeout(updateCustomerCart, 5000);
+    return setTimeout(updateCustomerCart, 1500);
   };
 
   // if cartList(quantity change) changes then reset the timer
