@@ -64,7 +64,7 @@ public class CustomerCartService {
         currCustomerCartList.forEach(c ->
             customerCartList.stream().filter(
                     o -> o.getProduct().getId().equals(c.getProduct().getId())
-            ).findFirst().ifPresent(customerCart -> c.setQuantity(customerCart.getQuantity()))
+            ).findAny().ifPresent(customerCart -> c.setQuantity(customerCart.getQuantity()))
         );
     }
 
