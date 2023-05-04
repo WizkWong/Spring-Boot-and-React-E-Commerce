@@ -12,8 +12,8 @@ export const CartContext = createContext<any>(null);
 const Cart = () => {
   const [cartList, setCartList] = useState<CustomerCart[]>([]);
   const [update, isUpdate] = useState(false);
-  
-  const [handleCheckBoxChange] = useRemoveCart();
+
+  const [selected, setSelected, removeCartItemBtn, isHiddenBtn] = useRemoveCart(cartList, setCartList);
   useUpdateCart(cartList, update, isUpdate);
 
   // fetch data
@@ -57,7 +57,8 @@ const Cart = () => {
                 <td className="flex flex-row my-1 items-center">
                   <CheckBox
                     cartItem={cartItem}
-                    handleChange={handleCheckBoxChange}
+                    selected={selected}
+                    setSelected={setSelected}
                   />
                   <div className="flex-none flex mx-4 w-40 h-40 items-center justify-center">
                     <img
@@ -82,11 +83,22 @@ const Cart = () => {
             ))}
           </tbody>
         </table>
-        <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 text-lg flex flex-row items-center justify-end">
-          <p className="px-8">Sub Total: </p>
-          <p className="px-1 mr-8">
-            {import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}
-          </p>
+        <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 flex flex-row items-center">
+          <div className="flex-1 flex flex-row items-center justify-start">
+            <button
+              className="ml-8 rounded text-white font-semibold bg-orange-600 px-3 py-2 hover:cursor-pointer"
+              hidden={isHiddenBtn}
+              onClick={removeCartItemBtn}
+            >
+              Remove Selected Items
+            </button>
+          </div>
+          <div className="flex-1 flex flex-row items-center justify-end text-lg">
+            <p className="px-8">Sub Total: </p>
+            <p className="px-1 mr-8">
+              {import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}
+            </p>
+          </div>
         </div>
       </div>
     </CartContext.Provider>

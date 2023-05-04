@@ -86,6 +86,18 @@ class CustomerService {
       setAuthorizationHeader()
     )
   }
+
+  deleteCartItem(cartList: CustomerCart[]): Promise<AxiosResponse<any, any>> {
+    const customer: CustomerProfile = this.cookies.get("userProfile")
+    const config = {
+      ...setAuthorizationHeader(),
+      data: cartList
+    };
+    return axios.delete(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
+      config
+    )
+  }
 }
 
 export default CustomerService.getInstance();

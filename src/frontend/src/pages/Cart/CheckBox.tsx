@@ -2,17 +2,33 @@ import { CustomerCart } from "../../types/User";
 
 const CheckBox = ({
   cartItem,
-  handleChange,
+  selected,
+  setSelected,
 }: {
   cartItem: CustomerCart;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selected: number[];
+  setSelected: React.Dispatch<React.SetStateAction<number[]>>;
 }) => {
+  // for checkbox onClick
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = e.target;
+    const productId = Number(value);
+    if (checked) {
+      // add an id into list
+      setSelected([...selected, productId]);
+    } else if (!checked) {
+      // remove an id from list
+      setSelected(selected.filter((id) => id !== productId));
+    }
+  };
+
   return (
     <label className="ml-2">
       <input
         type="checkbox"
         name="check"
         value={cartItem.product.product_id}
+        checked={selected.includes(cartItem.product.product_id)}
         onChange={handleChange}
       ></input>
     </label>

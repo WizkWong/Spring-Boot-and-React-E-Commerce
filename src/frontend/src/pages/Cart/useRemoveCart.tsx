@@ -1,19 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { CustomerCart } from "../../types/User";
+import CustomerService from "../../services/CustomerService";
 
-const useRemoveCart = () => {
+const useRemoveCart = (
+  cartList: CustomerCart[],
+  setCartList: React.Dispatch<React.SetStateAction<CustomerCart[]>>
+) => {
   const [selected, setSelected] = useState<number[]>([]);
+  const [isHiddenBtn, setIsHiddenBtn] = useState(false);
 
-  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = e.target;
-    const productId = Number(value);
-    if (checked) {
-      setSelected([...selected, productId]);
-    } else if (!checked) {
-      setSelected(selected.filter((id) => id !== productId));
+  useEffect(() => {
+    if (selected.length === 0) {
+      setIsHiddenBtn(true);
+    } else {
+      setIsHiddenBtn(false);
     }
+  }, [selected]);
+
+  const removeCartItemBtn = () => {
+    // split cartList into two list (first list met condition while second list does not)
+    const [deletedCartList, newCartList]: [CustomerCart[], CustomerCart[]] =
+      cartList.reduce(
+        ([d, n]: [CustomerCart[], CustomerCart[]], cartItem) => {
+          return selected.includes(cartItem.product.product_id)
+            ? [[...d, cartItem], n] // if true then add into deleted List
+            : [d, [...n, cartItem]]; // if false then add into new List
+        },
+        [[], []]
+      );
+    // request API to delete request cart item
+    const removeCartItem = async () => {
+      try {
+        const { status } = await CustomerService.deleteCartItem(deletedCartList);
+        console.log(status);
+        setCartList(newCartList);
+        setSelected([]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    removeCartItem();
   };
 
-  return [handleCheckBoxChange] as const;
+  return [selected, setSelected, removeCartItemBtn, isHiddenBtn] as const;
 };
 
 export default useRemoveCart;
