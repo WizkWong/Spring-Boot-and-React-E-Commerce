@@ -4,14 +4,17 @@ import CustomerService from "../../services/CustomerService";
 import defaultImg from "../../assets/default.jpg";
 import QuantityBtn from "./QuantityBtn";
 import CheckBox from "./CheckBox";
+import useRemoveCart from "./useRemoveCart";
+import useUpdateCart from "./useUpdateCart";
 
 export const CartContext = createContext<any>(null);
 
 const Cart = () => {
   const [cartList, setCartList] = useState<CustomerCart[]>([]);
-  const [selected, setSelected] = useState<number[]>([]);
   const [update, isUpdate] = useState(false);
-  const [timer, setTimer] = useState(0);
+  
+  const [handleCheckBoxChange] = useRemoveCart();
+  useUpdateCart(cartList, update, isUpdate);
 
   // fetch data
   useEffect(() => {
@@ -25,45 +28,6 @@ const Cart = () => {
     };
     fetchData();
   }, []);
-
-  // request API to update cart
-  const updateCustomerCart = async () => {
-    try {
-      const { status } = await CustomerService.updateCart(cartList);
-      console.log(status);
-    } catch (error) {
-      console.log(error);
-    }
-    setTimer(0);
-  };
-
-  // if cartList(quantity change) changes then reset the timer
-  useEffect(() => {
-    if (update) {
-      clearTimeout(timer);
-      // set a timer to execute update cart function
-      setTimer(setTimeout(updateCustomerCart, 1500));
-      isUpdate(false);
-    }
-  }, [cartList]);
-
-  // execute update cart function if the user refresh the browser and its function is not execute yet
-  window.onbeforeunload = () => {
-    if (timer !== 0) {
-      clearTimeout(timer);
-      updateCustomerCart();
-    }
-  };
-
-  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = e.target;
-    const productId = Number(value);
-    if (checked) {
-      setSelected([...selected, productId]);
-    } else if (!checked) {
-      setSelected(selected.filter((id) => id !== productId));
-    }
-  };
 
   const totalPrice = useMemo(
     () =>
