@@ -1,13 +1,15 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { CustomerCart } from "../../types/User";
 import CustomerService from "../../services/CustomerService";
 import defaultImg from "../../assets/default.jpg";
 import QuantityBtn from "./QuantityBtn";
+import CheckBox from "./CheckBox";
 
 export const CartContext = createContext<any>(null);
 
 const Cart = () => {
   const [cartList, setCartList] = useState<CustomerCart[]>([]);
+  const [selected, setSelected] = useState<number[]>([]);
   const [update, isUpdate] = useState(false);
   const [timer, setTimer] = useState(0);
 
@@ -53,9 +55,23 @@ const Cart = () => {
     }
   };
 
-  const totalPrice = cartList.reduce(
-    (total, cartItem) => total + cartItem.product.price * cartItem.quantity,
-    0
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = e.target;
+    const productId = Number(value);
+    if (checked) {
+      setSelected([...selected, productId]);
+    } else if (!checked) {
+      setSelected(selected.filter((id) => id !== productId));
+    }
+  };
+
+  const totalPrice = useMemo(
+    () =>
+      cartList.reduce(
+        (total, cartItem) => total + cartItem.product.price * cartItem.quantity,
+        0
+      ),
+    [cartList]
   );
 
   return (
@@ -75,6 +91,10 @@ const Cart = () => {
             {cartList.map((cartItem, index) => (
               <tr key={index} className="border-b-2">
                 <td className="flex flex-row my-1 items-center">
+                  <CheckBox
+                    cartItem={cartItem}
+                    handleChange={handleCheckBoxChange}
+                  />
                   <div className="flex-none flex mx-4 w-40 h-40 items-center justify-center">
                     <img
                       className="max-w-full max-h-full"
