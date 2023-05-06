@@ -50,6 +50,15 @@ class CustomerService {
     );
   }
 
+  // change current user of Customer profile
+  updateProfile(customerProfile: CustomerProfile): Promise<AxiosResponse<any, any>> {
+    return axios.put(
+      `${import.meta.env.VITE_API_BASE_URL}/updateProfile`,
+      customerProfile,
+      setAuthorizationHeader()
+    );
+  }
+
   changePassword(oldPassword: string, newPassword: string): Promise<AxiosResponse<any, any>> {
     return axios.post(
       `${import.meta.env.VITE_API_BASE_URL}/user/change-password`,
@@ -62,41 +71,41 @@ class CustomerService {
   }
 
   getCart(): Promise<AxiosResponse<CustomerCart[], any>> {
-    const customer: CustomerProfile = this.cookies.get("userProfile")
+    const customer: CustomerProfile = this.cookies.get("userProfile");
     return axios.get(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
       setAuthorizationHeader()
-    )
+    );
   }
 
   addToCart(cartItem: CustomerCart): Promise<AxiosResponse<any, any>> {
-    const customer: CustomerProfile = this.cookies.get("userProfile")
+    const customer: CustomerProfile = this.cookies.get("userProfile");
     return axios.put(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart/add`,
       cartItem,
       setAuthorizationHeader()
-    )
+    );
   }
 
   updateCart(cartList: CustomerCart[]): Promise<AxiosResponse<any, any>> {
-    const customer: CustomerProfile = this.cookies.get("userProfile")
+    const customer: CustomerProfile = this.cookies.get("userProfile");
     return axios.put(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
       cartList,
       setAuthorizationHeader()
-    )
+    );
   }
 
   deleteCartItem(cartList: CustomerCart[]): Promise<AxiosResponse<any, any>> {
-    const customer: CustomerProfile = this.cookies.get("userProfile")
+    const customer: CustomerProfile = this.cookies.get("userProfile");
     const config = {
       ...setAuthorizationHeader(),
-      data: cartList
+      data: cartList,
     };
     return axios.delete(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customer.customer_id}/cart`,
       config
-    )
+    );
   }
 }
 
