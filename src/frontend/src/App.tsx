@@ -9,6 +9,7 @@ import Logout from "./pages/Logout";
 import SearchProduct from "./pages/SearchProduct/SearchProduct";
 import Product from "./pages/Product/Product";
 import Cart from "./pages/Cart/Cart";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const location = useLocation();
@@ -30,7 +31,7 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         {/* required login */}
         <Route path="/" element={<ProtectedRoute />}>
-          <Route path="/profile" element={<h1>Your profile</h1>} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/logout" element={<Logout />} />
         </Route>
