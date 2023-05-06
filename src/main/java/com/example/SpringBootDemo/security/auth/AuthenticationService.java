@@ -1,8 +1,8 @@
 package com.example.SpringBootDemo.security.auth;
 
-import com.example.SpringBootDemo.customer.*;
-import com.example.SpringBootDemo.exception.ForbiddenException;
-import com.example.SpringBootDemo.exception.NotFoundException;
+import com.example.SpringBootDemo.customer.Customer;
+import com.example.SpringBootDemo.customer.CustomerDTO;
+import com.example.SpringBootDemo.customer.CustomerService;
 import com.example.SpringBootDemo.security.jwt.JwtService;
 import com.example.SpringBootDemo.security.userdetails.CustomUserDetails;
 import lombok.AllArgsConstructor;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final CustomerService customerService;
-    private final CustomerRepository customerRepository;
-    private final CustomerMapper customerMapper;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -47,16 +45,5 @@ public class AuthenticationService {
     public CustomerDTO getProfile(String token) {
         final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
         return customerService.getCustomerByUsername(username);
-    }
-
-    public void updateProfile(String token, CustomerDTO customerDTO) {
-        final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
-        Customer existCustomer = customerRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException(String.format("Customer Username:{%s} is not found", username)));
-        if (!existCustomer.getId().equals(customerDTO.getId())) {
-            throw new ForbiddenException("ID is not match to request body ID");
-        }
-        Customer customer = customerMapper.apply(customerDTO);
-        customerService.updateCustomer(existCustomer.getId(), customer);
     }
 }
