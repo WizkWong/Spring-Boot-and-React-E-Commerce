@@ -24,6 +24,14 @@ public class CustomerDTO {
         return dob.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = LocalDate.parse(dob, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     public Integer getAge() {
         return Period.between(this.dob, LocalDate.now()).getYears();
     }
