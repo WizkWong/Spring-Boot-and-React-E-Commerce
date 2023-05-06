@@ -28,4 +28,9 @@ public class AuthenticationController {
     public CustomerDTO getProfile(@RequestHeader(name = "Authorization") String token) {
         return authenticationService.getProfile(token);
     }
+
+    @PutMapping(path = "/updateProfile")
+    public void updateProfile(@RequestHeader(name = "Authorization") String token, CustomerDTO customerDTO) {
+        authenticationService.updateProfile(token, customerDTO);
+    }
 }
