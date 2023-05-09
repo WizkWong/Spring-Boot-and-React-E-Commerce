@@ -1,4 +1,4 @@
-import { Customer, CustomerValidation } from "../types/User";
+import { CustomerValidation } from "../types/User";
 import isBefore from "./isBefore";
 
 const validateCustomer = ({

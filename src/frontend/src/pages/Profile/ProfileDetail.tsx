@@ -1,14 +1,14 @@
+import { useContext } from "react";
+import { ProfileContext } from "./Profile";
 import { CustomerProfile } from "../../types/User";
 
 const ProfileDetail = ({
   profile,
-  editMode,
-  setEditMode,
 }: {
   profile: CustomerProfile | undefined;
-  editMode: boolean;
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [editMode, setEditMode] = useContext(ProfileContext);
+
   type profileDetail = {
     title: string;
     detail: any;

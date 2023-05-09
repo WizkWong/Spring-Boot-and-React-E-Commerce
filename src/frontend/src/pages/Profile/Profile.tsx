@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { CustomerProfile } from "../../types/User";
 import { useCookies } from "react-cookie";
 import ProfileForm from "./ProfileForm";
 import ProfileDetail from "./ProfileDetail";
+
+export const ProfileContext = createContext<any>(null);
 
 const Profile = () => {
   const [profile, setProfile] = useState<CustomerProfile>();
@@ -14,22 +16,15 @@ const Profile = () => {
   }, [cookies]);
 
   return (
-    <div className="max-w-5xl mx-auto my-8 p-8 border-[1px] shadow-sm rounded-lg">
-      {editMode ? (
-        <ProfileForm
-          profile={profile}
-          editMode={editMode}
-          setEditMode={setEditMode}
-          setCookies={setCookies}
-        />
-      ) : (
-        <ProfileDetail
-          profile={profile}
-          editMode={editMode}
-          setEditMode={setEditMode}
-        />
-      )}
-    </div>
+    <ProfileContext.Provider value={[editMode, setEditMode, setCookies]}>
+      <div className="max-w-5xl mx-auto my-8 p-8 border-[1px] shadow-sm rounded-lg">
+        {editMode && profile ? (
+          <ProfileForm profile={profile} />
+        ) : (
+          <ProfileDetail profile={profile} />
+        )}
+      </div>
+    </ProfileContext.Provider>
   );
 };
 
