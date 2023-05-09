@@ -31,7 +31,12 @@ const useSignUp = () => {
   };
 
   const validation = (customer: Customer): CustomerValidation => {
-    const errors = validateCustomer(customer);
+    const errors = validateCustomer({
+      username: customer.user.username,
+      email: customer.user.email,
+      phoneNo: customer.user.phoneNo,
+      dob: customer.dob,
+    });
 
     if (!customer.user.password) {
       errors.password = "Password is required";
