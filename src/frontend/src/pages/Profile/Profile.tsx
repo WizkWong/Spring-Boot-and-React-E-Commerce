@@ -9,7 +9,7 @@ export const ProfileContext = createContext<any>(null);
 const Profile = () => {
   const [profile, setProfile] = useState<CustomerProfile>();
   const [editMode, setEditMode] = useState(false);
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookies] = useCookies(["userProfile"]);
 
   useEffect(() => {
     setProfile(cookies.userProfile);

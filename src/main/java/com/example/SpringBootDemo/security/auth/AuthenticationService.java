@@ -49,7 +49,7 @@ public class AuthenticationService {
         return customerService.getCustomerByUsername(username);
     }
 
-    public void updateProfile(String token, CustomerDTO customerDTO) {
+    public AuthenticationResponse updateProfile(String token, CustomerDTO customerDTO) {
         final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
         Customer existCustomer = customerRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer Username:{%s} is not found", username)));
@@ -58,5 +58,10 @@ public class AuthenticationService {
         }
         Customer customer = customerMapper.apply(customerDTO);
         customerService.updateCustomer(existCustomer.getId(), customer);
+
+        final String jwtToken = jwtService.generateToken(
+                userDetailsService.loadUserByUsername(customerDTO.getUsername())
+        );
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 }

@@ -33,9 +33,10 @@ const useUpdateProfile = (profile: CustomerProfile) => {
 
   const updateProfile = async (profile: CustomerProfile, setCookies: any) => {
     try {
-      const { status } = await CustomerService.updateProfile(profile);
+      const { status, data } = await CustomerService.updateProfile(profile);
       if (status === 200) {
         setCookies("userProfile", profileInput);
+        setCookies("authToken", data.token, { maxAge: 2628288 });
       }
     } catch (error: any) {
       if (error.response.data.message === "User is taken") {

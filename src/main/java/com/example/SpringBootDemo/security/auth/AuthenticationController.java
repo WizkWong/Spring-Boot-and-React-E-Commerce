@@ -30,7 +30,7 @@ public class AuthenticationController {
     }
 
     @PutMapping(path = "/updateProfile")
-    public void updateProfile(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerDTO customerDTO) {
-        authenticationService.updateProfile(token, customerDTO);
+    public ResponseEntity<AuthenticationResponse> updateProfile(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerDTO customerDTO) {
+        return ResponseEntity.ok().body(authenticationService.updateProfile(token, customerDTO));
     }
 }
