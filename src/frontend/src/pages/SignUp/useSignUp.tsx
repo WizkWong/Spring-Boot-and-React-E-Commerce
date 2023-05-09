@@ -3,6 +3,7 @@ import { Customer, CustomerValidation } from "../../types/User";
 import CustomerService from "../../services/CustomerService";
 import { useNavigate } from "react-router-dom";
 import isBefore from "../../utils/isBefore";
+import validateCustomer from "../../utils/validateCustomer";
 
 const useSignUp = () => {
   const [customer, setCustomer] = useState<Customer>({
@@ -30,14 +31,7 @@ const useSignUp = () => {
   };
 
   const validation = (customer: Customer): CustomerValidation => {
-    const errors: CustomerValidation = {};
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$/i;
-
-    if (!customer.user.username) {
-      errors.username = "Username is required";
-    } else if (customer.user.username.length < 4) {
-      errors.username = "Username must be at least 4 characters";
-    }
+    const errors = validateCustomer(customer);
 
     if (!customer.user.password) {
       errors.password = "Password is required";
@@ -47,21 +41,6 @@ const useSignUp = () => {
       errors.confirmPassword = "Confirm Password must be same as Password";
     }
 
-    if (!customer.user.email) {
-      errors.email = "Email is required";
-    } else if (!customer.user.email.match(emailRegex)) {
-      errors.email = "Email is not valid";
-    }
-
-    if (!customer.user.phoneNo) {
-      errors.phoneNo = "Phone Number is required";
-    }
-
-    if (!customer.dob) {
-      errors.dob = "Date of Birth is required";
-    } else if (!isBefore(customer.dob, new Date())) {
-      errors.dob = "Date of Birth cannot exceed the current Date";
-    }
     return errors;
   };
 
