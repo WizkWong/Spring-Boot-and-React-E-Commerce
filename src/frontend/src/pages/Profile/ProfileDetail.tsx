@@ -7,7 +7,7 @@ const ProfileDetail = ({
 }: {
   profile: CustomerProfile | undefined;
 }) => {
-  const [editMode, setEditMode] = useContext(ProfileContext);
+  const [setEditMode] = useContext(ProfileContext);
 
   type profileDetail = {
     title: string;
@@ -47,7 +47,7 @@ const ProfileDetail = ({
         ))}
       </div>
       <button
-        onClick={() => setEditMode(!editMode)}
+        onClick={() => setEditMode(true)}
         className="rounded text-white font-semibold bg-cyan-600 mt-8 px-3 py-2 hover:cursor-pointer"
       >
         Change Profile

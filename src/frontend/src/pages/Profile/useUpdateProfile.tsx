@@ -5,7 +5,7 @@ import validateCustomer from "../../utils/validateCustomer";
 import { ProfileContext } from "./Profile";
 
 const useUpdateProfile = (profile: CustomerProfile) => {
-  const [editMode, setEditMode, setCookies] = useContext(ProfileContext);
+  const [setEditMode, setCookies] = useContext(ProfileContext);
   const [profileInput, setProfileInput] = useState<CustomerProfile>(profile);
   const [formErrors, setFormErrors] = useState<CustomerValidation>({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -28,7 +28,7 @@ const useUpdateProfile = (profile: CustomerProfile) => {
   };
 
   const cancelChangeProfile = () => {
-    setEditMode(!editMode);
+    setEditMode(false);
   };
 
   const updateProfile = async (profile: CustomerProfile, setCookies: any) => {
@@ -52,7 +52,7 @@ const useUpdateProfile = (profile: CustomerProfile) => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       updateProfile(profileInput, setCookies);
       setIsSubmit(false);
-      setEditMode(!editMode);
+      setEditMode(false);
     }
   }, [isSubmit]);
 

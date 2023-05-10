@@ -16,7 +16,7 @@ const Profile = () => {
   }, [cookies]);
 
   return (
-    <ProfileContext.Provider value={[editMode, setEditMode, setCookies]}>
+    <ProfileContext.Provider value={[setEditMode, setCookies]}>
       <div className="max-w-5xl mx-auto my-8 p-8 border-[1px] shadow-sm rounded-lg">
         {editMode && profile ? (
           <ProfileForm profile={profile} />
