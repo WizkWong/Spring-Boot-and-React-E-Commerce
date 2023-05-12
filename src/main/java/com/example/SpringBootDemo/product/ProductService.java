@@ -28,8 +28,10 @@ public class ProductService {
     }
 
     public List<Product> getProductBySearch(String searchTxt) {
+        // clear extra spaces of searchTxt
         searchTxt = searchTxt.trim();
 
+        // check searchTxt is existed or not
         if (searchTxt.isEmpty()) {
             throw new NotValidException("Search parameter cannot be empty!");
         }
@@ -48,7 +50,7 @@ public class ProductService {
 
     public String createMultipleProduct(List<Product> productList) {
         return productList.stream().map((product) -> {
-
+            // check product name has taken or not
             if (productRepository.findByName(product.getName()).isPresent()) {
                 return String.format("Product Name:{%s} is taken", product.getName());
             }
@@ -63,6 +65,7 @@ public class ProductService {
     public String updateProduct(Product product, Product requestProduct) {
         if (!Objects.equals(product.getName(), requestProduct.getName())) {
 
+            // check product name has taken or not
             if (productRepository.findByName(requestProduct.getName()).isPresent()) {
                 return String.format("Product Name:{%s} is taken", requestProduct.getName());
             }
@@ -97,11 +100,13 @@ public class ProductService {
     @Transactional
     public void updateMultipleProduct(List<Product> listProduct) {
         String errorMsg = listProduct.stream().map(product -> {
+
             Product oldProduct = productRepository.findById(product.getId())
                     .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%s} is not found", product.getId())));
 
             return updateProduct(oldProduct, product);
-        }).filter(Objects::nonNull).collect(Collectors.joining(", "));
+
+        }).filter(Objects::nonNull).collect(Collectors.joining(", ")); // filter nonNUll and join string ","
 
         if (!errorMsg.isEmpty()) {
             throw new DuplicateException(errorMsg);

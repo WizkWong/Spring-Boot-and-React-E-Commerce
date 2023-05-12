@@ -43,10 +43,11 @@ public class UserService {
         if (user.getPassword() == null || user.getPassword().length() < 8) {
             throw new NotValidException("Password cannot be empty or must at least 8 password length; ");
         }
-
+        // check username has taken or not
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new DuplicateException("User is taken");
         }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreated_datetime(LocalDateTime.now());
 
@@ -59,6 +60,7 @@ public class UserService {
     public void updateUser(User oldUser, User newUser) {
         if (!Objects.equals(oldUser.getUsername(), newUser.getUsername())) {
 
+            // check username has taken or not
             if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
                 throw new DuplicateException("User is taken");
             }
@@ -100,10 +102,13 @@ public class UserService {
 
     @Transactional
     public void changePassword(String token, RequestChangePassword request) {
+        // get username from token
         final String username = jwtService.extractUsername(jwtService.extractBearerToken(token));
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(String.format("Username:{%s} is not found", username)));
 
+        // authenticate the user
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
                 request.oldPassword()
