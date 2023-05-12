@@ -54,7 +54,7 @@ const useUpdateProfile = (profile: CustomerProfile) => {
       setIsSubmit(false);
       setEditMode(false);
     }
-  }, [isSubmit]);
+  }, [formErrors, isSubmit]);
 
   return [
     profileInput,
