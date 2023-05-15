@@ -15,4 +15,8 @@ public class CustomerOrderController {
         return customerOrderService.getCustomerOrderById(customerId, orderId);
     }
 
+    @PostMapping
+    public void createCustomerOrder(@PathVariable("id") long customerId) {
+        customerOrderService.createCustomerOrder(customerId);
+    }
 }
