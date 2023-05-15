@@ -6,3 +6,8 @@ export interface ProductType {
   image: string;
   created_datetime?: string;
 }
+
+export interface ProductPaginationType {
+  productList: ProductType[];
+  totalPages: number;
+}

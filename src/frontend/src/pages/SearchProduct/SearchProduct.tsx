@@ -8,8 +8,9 @@ import defaultImg from "../../assets/default.jpg";
 const SearchProduct = () => {
   const useQuery = new URLSearchParams(useLocation().search);
   const searchTxt = useQuery.get("search");
-  const [productList, setProductList] = useState<ProductType[]>([]);
   const navigate = useNavigate();
+  const [productList, setProductList] = useState<ProductType[]>([]);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     if (!searchTxt) {
@@ -18,8 +19,8 @@ const SearchProduct = () => {
     }
     const fetchData = async () => {
       try {
-        const { data } = await ProductServices.getProductBySearch(searchTxt);
-        setProductList(data);
+        const { data } = await ProductServices.getProductBySearch(page, searchTxt);
+        setProductList(data.productList);
       } catch (error) {
         console.log(error);
       }
