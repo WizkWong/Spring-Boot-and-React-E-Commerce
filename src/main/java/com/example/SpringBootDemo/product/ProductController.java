@@ -1,7 +1,6 @@
 package com.example.SpringBootDemo.product;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +20,13 @@ public class ProductController {
     }
 
     @GetMapping(path = "/all")
-    public Page<Product> getAllProduct(@RequestParam("page") int page) {
+    public ProductSearchResult getAllProduct(@RequestParam("page") int page) {
         return productService.getAllProduct(page);
     }
 
     @GetMapping
-    public List<Product> getProductBySearch(@RequestParam("search") String searchTxt) {
-        return productService.getProductBySearch(searchTxt);
+    public ProductSearchResult getProductBySearch(@RequestParam("page") int page, @RequestParam("search") String searchTxt) {
+        return productService.getProductBySearch(page, searchTxt);
     }
 
     @PostMapping

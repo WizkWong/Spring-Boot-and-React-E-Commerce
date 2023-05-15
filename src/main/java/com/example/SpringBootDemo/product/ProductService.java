@@ -25,11 +25,16 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
     }
 
-    public Page<Product> getAllProduct(int page) {
-        return productRepository.findAll(PageRequest.of(page, 50));
+    public ProductSearchResult getAllProduct(int page) {
+        Page<Product> productPage = productRepository.findAll(PageRequest.of(page, 30));
+
+        return new ProductSearchResult(
+                productPage.getContent(),
+                productPage.getTotalPages()
+        );
     }
 
-    public List<Product> getProductBySearch(String searchTxt) {
+    public ProductSearchResult getProductBySearch(int page, String searchTxt) {
         // clear extra spaces of searchTxt
         searchTxt = searchTxt.trim();
 
@@ -37,7 +42,16 @@ public class ProductService {
         if (searchTxt.isEmpty()) {
             throw new NotValidException("Search parameter cannot be empty!");
         }
-        return productRepository.findByNameContainingIgnoreCase(searchTxt);
+
+        // split the searchTxt then join with "%" for query purpose
+        searchTxt = String.join("%", searchTxt.split(" "));
+
+        Page<Product> productPage = productRepository.findByNameContainingIgnoreCase(searchTxt, PageRequest.of(page, 30));
+
+        return new ProductSearchResult(
+                productPage.getContent(),
+                productPage.getTotalPages()
+        );
     }
 
     public Product createProduct(Product product) {
