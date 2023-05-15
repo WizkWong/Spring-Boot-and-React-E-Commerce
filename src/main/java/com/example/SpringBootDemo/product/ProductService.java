@@ -4,6 +4,8 @@ import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.NotValidException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,8 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
     }
 
-    public List<Product> getAllProduct() {
-        return productRepository.findAll();
+    public Page<Product> getAllProduct(int page) {
+        return productRepository.findAll(PageRequest.of(page, 50));
     }
 
     public List<Product> getProductBySearch(String searchTxt) {

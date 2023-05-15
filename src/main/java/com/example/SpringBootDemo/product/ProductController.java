@@ -1,6 +1,7 @@
 package com.example.SpringBootDemo.product;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class ProductController {
     }
 
     @GetMapping(path = "/all")
-    public List<Product> getAllProduct() {
-        return productService.getAllProduct();
+    public Page<Product> getAllProduct(@RequestParam("page") int page) {
+        return productService.getAllProduct(page);
     }
 
     @GetMapping
