@@ -10,7 +10,10 @@ const SearchProduct = () => {
   const searchTxt = useQuery.get("search");
   const navigate = useNavigate();
   const [productList, setProductList] = useState<ProductType[]>([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState({
+    currentPage: 0,
+    totalPages: 0,
+  });
 
   useEffect(() => {
     if (!searchTxt) {
@@ -19,14 +22,43 @@ const SearchProduct = () => {
     }
     const fetchData = async () => {
       try {
-        const { data } = await ProductServices.getProductBySearch(page, searchTxt);
+        const { data } = await ProductServices.getProductBySearch(
+          page.currentPage,
+          searchTxt
+        );
         setProductList(data.productList);
+        setPage({ ...page, totalPages: data.totalPages });
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [searchTxt]);
+  }, [searchTxt, page.currentPage]);
+
+  const pageBtnFunction = (p: number) => {
+    setPage({ ...page, currentPage: p });
+    console.log(page.currentPage);
+  };
+
+  const pageBtn = [];
+  for (let i = 0; i < page.totalPages; i++) {
+    pageBtn.push(
+      <div key={i}>
+        {i === page.currentPage ? (
+          <button className="p-2 mx-1 border-2 bg-blue-300">{i + 1}</button>
+        ) : (
+          <button
+            className="p-2 mx-1 border-2"
+            onClick={() => {
+              pageBtnFunction(i);
+            }}
+          >
+            {i + 1}
+          </button>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-row flex-wrap mx-8 my-4 min-w-[54rem]">
@@ -57,6 +89,9 @@ const SearchProduct = () => {
           </p>
         </div>
       ))}
+      {productList.length !== 0 && (
+        <div className="flex flex-row mx-auto">{pageBtn}</div>
+      )}
     </div>
   );
 };
