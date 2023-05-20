@@ -15,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerOrderService {
 
-    CustomerOrderRepository customerOrderRepository;
-    CustomerOrderItemRepository customerOrderItemRepository;
-    CustomerRepository customerRepository;
-    CustomerCartRepository customerCartRepository;
+    private final CustomerOrderRepository customerOrderRepository;
+    private final CustomerOrderItemRepository customerOrderItemRepository;
+    private final CustomerRepository customerRepository;
+    private final CustomerCartRepository customerCartRepository;
 
     public CustomerOrder getCustomerOrderById(long customerId, long orderId) {
         Customer customer = customerRepository.findById(customerId)
