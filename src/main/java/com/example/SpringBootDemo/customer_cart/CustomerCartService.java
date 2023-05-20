@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CustomerCartService {
 
-    public final CustomerRepository customerRepository;
-    public final CustomerCartRepository customerCartRepository;
-    public final ProductRepository productRepository;
+    private final CustomerRepository customerRepository;
+    private final CustomerCartRepository customerCartRepository;
+    private final ProductRepository productRepository;
 
     public List<CustomerCart> getCustomerCartById(long id) {
         Customer customer = customerRepository.findById(id)

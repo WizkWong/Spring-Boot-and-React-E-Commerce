@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/customer/{id}/order")
 public class CustomerOrderController {
 
-    CustomerOrderService customerOrderService;
+    private final CustomerOrderService customerOrderService;
 
     @GetMapping(path = "/{order_id}")
     public CustomerOrder getCustomerOrderById(@PathVariable("id") long customerId, @PathVariable("order_id") long orderId) {
