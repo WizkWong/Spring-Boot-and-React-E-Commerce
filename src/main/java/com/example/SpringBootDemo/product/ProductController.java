@@ -15,8 +15,8 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping(path = "/{id}")
-    public Product getProductById(@PathVariable("id") long id) {
-        return productService.getProductById(id);
+    public Product getProductById(@PathVariable("id") long id, @RequestParam("id") Long customerId) {
+        return productService.getProductById(id, customerId);
     }
 
     @GetMapping(path = "/all")
