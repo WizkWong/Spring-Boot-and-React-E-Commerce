@@ -1,5 +1,6 @@
 package com.example.SpringBootDemo.product;
 
+import com.example.SpringBootDemo.customer_visit.CustomerVisitService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,16 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CustomerVisitService customerVisitService;
 
     @GetMapping(path = "/{id}")
-    public Product getProductById(@PathVariable("id") long id, @RequestParam("id") Long customerId) {
-        return productService.getProductById(id, customerId);
+    public Product getProductById(@PathVariable("id") long id, @RequestParam(value = "customer-id", required = false) Long customerId) {
+        Product product = productService.getProductById(id);
+
+        if (customerId != null) {
+            customerVisitService.createCustomerVisit(customerId, product.getCategory());
+        }
+        return product;
     }
 
     @GetMapping(path = "/all")

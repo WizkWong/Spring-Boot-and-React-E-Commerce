@@ -1,6 +1,5 @@
 package com.example.SpringBootDemo.product;
 
-import com.example.SpringBootDemo.customer_visit.CustomerVisitService;
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.NotValidException;
@@ -20,17 +19,10 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final CustomerVisitService customerVisitService;
 
-    public Product getProductById(long id, Long customerId ) {
-        Product product = productRepository.findById(id)
+    public Product getProductById(long id) {
+        return productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
-
-        if (customerId != null) {
-            customerVisitService.createCustomerVisit(customerId, product.getCategory());
-        }
-
-        return product;
     }
 
     public ProductSearchResult getAllProduct(int page) {
