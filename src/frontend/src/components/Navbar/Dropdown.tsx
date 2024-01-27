@@ -1,12 +1,12 @@
-import { useContext, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
 import profile from "../../assets/profile_img.svg";
-import { NavContext } from "./Navbar";
 import { Link } from "react-router-dom";
 
 const Dropdown = () => {
-  const cookies = useContext(NavContext);
+  const [cookies] = useCookies();
   const [isOpen, setIsOpen] = useState(false);
-  const username: string = cookies.userProfile ? cookies.userProfile.username : "user";
+  const username: string = cookies.authToken ? cookies.authToken.username : "user";
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

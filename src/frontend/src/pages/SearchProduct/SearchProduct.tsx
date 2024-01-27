@@ -38,7 +38,6 @@ const SearchProduct = () => {
 
   const pageBtnFunction = (p: number) => {
     setPage({ ...page, currentPage: p });
-    console.log(page.currentPage);
   };
 
   const pageBtn = [];

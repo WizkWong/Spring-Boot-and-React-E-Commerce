@@ -2,7 +2,7 @@ import { ProductType } from "../../types/Product";
 import { CustomerCart } from "../../types/User";
 import defaultImg from "../../assets/default.jpg";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
-import { hasAuthToken, hasProfileToken } from "../../lib/checkCookies";
+import { hasAuthToken } from "../../lib/checkCookies";
 import { useNavigate } from "react-router-dom";
 
 const ProductDetail = ({ product, addToCart } : { product: ProductType, addToCart: (cartItem: CustomerCart) => Promise<void> }) => {
@@ -10,7 +10,7 @@ const ProductDetail = ({ product, addToCart } : { product: ProductType, addToCar
 
   const addToCartBtn = (e: React.MouseEvent<HTMLElement>) => {
     // check authentication
-    if (!hasAuthToken() || !hasProfileToken()) {
+    if (!hasAuthToken()) {
       navigate("/login");
       return;
     }

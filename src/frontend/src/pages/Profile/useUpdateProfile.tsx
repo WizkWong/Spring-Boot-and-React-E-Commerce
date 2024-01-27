@@ -3,9 +3,11 @@ import CustomerService from "../../services/CustomerService";
 import { CustomerProfile, CustomerValidation } from "../../types/User";
 import validateCustomer from "../../utils/validateCustomer";
 import { ProfileContext } from "./Profile";
+import { useCookies } from "react-cookie";
 
 const useUpdateProfile = (profile: CustomerProfile) => {
-  const [setEditMode, setCookies] = useContext(ProfileContext);
+  const [cookies, setCookies] = useCookies();
+  const [setEditMode] = useContext(ProfileContext);
   const [profileInput, setProfileInput] = useState<CustomerProfile>(profile);
   const [formErrors, setFormErrors] = useState<CustomerValidation>({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -35,8 +37,7 @@ const useUpdateProfile = (profile: CustomerProfile) => {
     try {
       const { status, data } = await CustomerService.updateProfile(profile);
       if (status === 200) {
-        setCookies("userProfile", profileInput);
-        setCookies("authToken", data.token, { maxAge: 2628288 });
+        setCookies("authToken", data, { maxAge: 2628288 });
       }
     } catch (error: any) {
       if (error.response.data.message === "User is taken") {

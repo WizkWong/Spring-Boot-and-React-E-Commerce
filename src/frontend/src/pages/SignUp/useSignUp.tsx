@@ -57,8 +57,7 @@ const useSignUp = () => {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       CustomerService.register(customer)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           navigate("/");
         })
         .catch((error) => {

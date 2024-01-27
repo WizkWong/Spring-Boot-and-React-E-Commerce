@@ -5,6 +5,8 @@ import com.example.SpringBootDemo.exception.ForbiddenException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.security.jwt.JwtService;
 import com.example.SpringBootDemo.security.userdetails.CustomUserDetails;
+import com.example.SpringBootDemo.user.User;
+import com.example.SpringBootDemo.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +19,7 @@ public class AuthenticationService {
 
     private final CustomerService customerService;
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final CustomerMapper customerMapper;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
@@ -32,7 +35,11 @@ public class AuthenticationService {
                 new CustomUserDetails(newCustomer.getUser())
         );
         // response with token
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .userId(newCustomer.getId())
+                .username(newCustomer.getUser().getUsername())
+                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -45,8 +52,15 @@ public class AuthenticationService {
         final String jwtToken = jwtService.generateToken(
                 userDetailsService.loadUserByUsername(request.getUsername())
         );
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new NotFoundException(String.format("Username:{%s} is not found", request.getUsername())));
+
         // response with token
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .userId(user.getId())
+                .username(user.getUsername())
+                .build();
     }
 
     // get profile by username, which extract from token
@@ -78,6 +92,10 @@ public class AuthenticationService {
                 userDetailsService.loadUserByUsername(customerDTO.getUsername())
         );
         // response with token
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .userId(customer.getId())
+                .username(customer.getUser().getUsername())
+                .build();
     }
 }

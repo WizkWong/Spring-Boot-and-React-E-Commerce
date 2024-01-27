@@ -38,9 +38,9 @@ const useSignUp = () => {
     if (formErrors.length === 0 && isSubmit) {
       CustomerService.login(customerAuth)
         .then((response) => {
-          if (response.data.token) {
+          if (response.data) {
             // set 30 days expired
-            cookies.set("authToken", response.data.token, { maxAge: 2628288 })
+            cookies.set("authToken", response.data, { maxAge: 2628288 });
           }
           navigate("/");
         })
@@ -53,7 +53,7 @@ const useSignUp = () => {
           }
         });
     }
-  }, [formErrors, isSubmit]); 
+  }, [formErrors, isSubmit]);
   // isSubmit is needed because formErrors and validation return are both "" and is same, so does not set the value
 
   return [customerAuth, formErrors, handleChange, loginAuth] as const;

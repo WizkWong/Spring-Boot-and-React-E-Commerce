@@ -2,7 +2,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { ProductType, ProductPaginationType } from "../types/Product";
 import { Cookies } from "react-cookie";
-import { CustomerProfile } from "../types/User";
+import { hasAuthToken } from "../lib/checkCookies";
 
 class ProductServices {
   private static instance: ProductServices;
@@ -10,7 +10,7 @@ class ProductServices {
   private readonly cookies: Cookies;
 
   private constructor() {
-    this.cookies = new Cookies;
+    this.cookies = new Cookies();
   }
 
   // singleton method
@@ -26,8 +26,12 @@ class ProductServices {
   }
 
   getProductById(id: number): Promise<AxiosResponse<ProductType, any>> {
-    const customer: CustomerProfile = this.cookies.get("userProfile");
-    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/${id}${customer == null ? "" : `?customer-id=${customer.customer_id}`}`);
+    let param: string = "";
+    if (hasAuthToken()) {
+      const customerId: number = this.cookies.get("authToken").userId;
+      param = `?customer-id=${customerId}`;
+    }
+    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/${id}${param}`);
   }
 }
 

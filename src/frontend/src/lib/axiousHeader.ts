@@ -10,7 +10,7 @@ export function setAuthorizationHeader(): HttpHeaders {
   }
   return {
     headers: {
-      Authorization: `Bearer ${cookies.get("authToken")}`,
+      Authorization: `Bearer ${cookies.get("authToken").token}`,
     },
   };
 }

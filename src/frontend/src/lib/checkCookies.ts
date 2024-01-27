@@ -8,10 +8,3 @@ export function hasAuthToken(): boolean {
   }
   return false;
 }
-
-export function hasProfileToken(): boolean {
-  if (cookies.get("userProfile")) {
-    return true;
-  }
-  return false;
-}
