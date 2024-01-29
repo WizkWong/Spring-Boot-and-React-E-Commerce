@@ -3,11 +3,9 @@ import CustomerService from "../../services/CustomerService";
 import { CustomerProfile, CustomerValidation } from "../../types/User";
 import validateCustomer from "../../utils/validateCustomer";
 import { ProfileContext } from "./Profile";
-import { useCookies } from "react-cookie";
 
 const useUpdateProfile = (profile: CustomerProfile) => {
-  const [cookies, setCookies] = useCookies();
-  const [setEditMode] = useContext(ProfileContext);
+  const [setEditMode, setCookies] = useContext(ProfileContext);
   const [profileInput, setProfileInput] = useState<CustomerProfile>(profile);
   const [formErrors, setFormErrors] = useState<CustomerValidation>({});
   const [isSubmit, setIsSubmit] = useState(false);
