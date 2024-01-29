@@ -4,10 +4,11 @@ import CustomerService from "../../services/CustomerService";
 
 const useRemoveCart = (
   cartList: CustomerCart[],
-  setCartList: React.Dispatch<React.SetStateAction<CustomerCart[]>>
+  setCartList: React.Dispatch<React.SetStateAction<CustomerCart[]>>,
+  setIsProcess: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const [selected, setSelected] = useState<number[]>([]);
-  const [isHiddenBtn, setIsHiddenBtn] = useState(false);
+  const [isHiddenBtn, setIsHiddenBtn] = useState(true);
 
   useEffect(() => {
     if (selected.length === 0) {
@@ -18,6 +19,7 @@ const useRemoveCart = (
   }, [selected]);
 
   const removeCartItemBtn = () => {
+    setIsProcess(true);
     // split cartList into two list (first list met condition while second list does not)
     const [deletedCartList, newCartList]: [CustomerCart[], CustomerCart[]] =
       cartList.reduce(
@@ -38,6 +40,7 @@ const useRemoveCart = (
       } catch (error) {
         console.log(error);
       }
+      setIsProcess(false);
     };
     removeCartItem();
   };

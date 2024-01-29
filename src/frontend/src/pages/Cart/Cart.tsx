@@ -6,15 +6,18 @@ import QuantityBtn from "./QuantityBtn";
 import CheckBox from "./CheckBox";
 import useRemoveCart from "./useRemoveCart";
 import useUpdateCart from "./useUpdateCart";
+import CircleLoading from "../../components/CircleLoading";
 
 export const CartContext = createContext<any>(null);
 
 const Cart = () => {
   const [cartList, setCartList] = useState<CustomerCart[]>([]);
-  const [update, isUpdate] = useState(false);
-
-  const [selected, setSelected, removeCartItemBtn, isHiddenBtn] = useRemoveCart(cartList, setCartList);
-  useUpdateCart(cartList, update, isUpdate);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
+  
+  const [selected, setSelected, removeCartItemBtn, isHiddenBtn] = useRemoveCart(cartList, setCartList, setIsProcess);
+  useUpdateCart(cartList, isUpdate, setIsUpdate, setIsProcess);
 
   // fetch data
   useEffect(() => {
@@ -29,6 +32,23 @@ const Cart = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (!isProcess && isSubmit) {
+      const placeOrder = async () => {
+        try {
+          const { status } = await CustomerService.placeOrder();
+          if (status === 200) {
+            setCartList([]);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      placeOrder();
+      setIsSubmit(false);
+    }
+  }, [isSubmit, isProcess]);
+
   const totalPrice = useMemo(
     () =>
       cartList.reduce(
@@ -39,7 +59,7 @@ const Cart = () => {
   );
 
   return (
-    <CartContext.Provider value={[cartList, setCartList, update, isUpdate]}>
+    <CartContext.Provider value={[cartList, setCartList, isUpdate, setIsUpdate]}>
       <div className="px-8 pb-24 my-4">
         <h1 className="mb-2 text-center text-3xl font-semibold">Your Cart</h1>
         <table className="min-w-full text-lg">
@@ -86,7 +106,7 @@ const Cart = () => {
         <div className="fixed right-0 bottom-0 min-w-full h-24 bg-gray-50 shadow border-t-2 flex flex-row items-center">
           <div className="flex-1 flex flex-row items-center justify-start">
             <button
-              className="ml-8 rounded text-white font-semibold bg-orange-600 px-3 py-2 hover:cursor-pointer"
+              className="ml-8 rounded text-white font-semibold bg-orange-600 px-3 py-2"
               hidden={isHiddenBtn}
               onClick={removeCartItemBtn}
             >
@@ -94,6 +114,14 @@ const Cart = () => {
             </button>
           </div>
           <div className="flex-1 flex flex-row items-center justify-end text-lg">
+            {isProcess ? <p>Updating...</p> : <></>}
+            <button
+              className="ml-8 rounded text-white font-semibold bg-orange-600 px-3 py-2"
+              hidden={!isHiddenBtn}
+              onClick={() => setIsSubmit(true)}
+            >
+              {isSubmit ? <CircleLoading /> : <p>Place Order</p>}
+            </button>
             <p className="px-8">Sub Total: </p>
             <p className="px-1 mr-8">
               {import.meta.env.VITE_CURRENCY} {totalPrice.toFixed(2)}

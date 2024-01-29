@@ -106,6 +106,15 @@ class CustomerService {
       config
     );
   }
+
+  placeOrder(): Promise<AxiosResponse<any, any>> {
+    const customerId: number = this.cookies.get("authToken").userId;
+    return axios.post(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customerId}/order`,
+      {},
+      setAuthorizationHeader()
+    );
+  }
 }
 
 export default CustomerService.getInstance();

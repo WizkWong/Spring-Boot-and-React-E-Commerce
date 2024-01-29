@@ -6,11 +6,11 @@ import { CartContext } from "./Cart";
 
 const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: number }) => {
 
-  const [cartList, setCartList, update, isUpdate] = useContext(CartContext);
+  const [cartList, setCartList, isUpdate, setIsUpdate] = useContext(CartContext);
   const [qty, setQty] = useState(cartItem.quantity);
 
   useEffect(() => {
-    if (update) {
+    if (isUpdate) {
       // copy cart list
       const newCartList = [...cartList];
       // update cartItem before override the index of newCartList
@@ -24,7 +24,7 @@ const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: numbe
   const setQuantity = (quantity: number) => {
     if (!isNaN(quantity) && quantity >= 0 && quantity <= 99) {
       setQty(quantity);
-      isUpdate(true);
+      setIsUpdate(true);
     }
   };
 

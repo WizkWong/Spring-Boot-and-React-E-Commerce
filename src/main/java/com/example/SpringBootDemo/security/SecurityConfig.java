@@ -47,7 +47,11 @@ public class SecurityConfig {
                     .permitAll()
                 .antMatchers(HttpMethod.GET, "/product/**")
                     .permitAll()
-                .antMatchers("/customer/*/cart/**", "/user/change-password")
+                .antMatchers(
+                        "/customer/*/cart/**",
+                        "/customer/*/order/**",
+                        "/user/change-password"
+                )
                     .authenticated()
                 .antMatchers("/product/**", "/customer/**", "/user/**")
                     .hasAuthority(UserRole.ADMIN.toString())

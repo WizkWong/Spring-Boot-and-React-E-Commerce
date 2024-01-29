@@ -61,11 +61,11 @@ public class CustomerFilter extends OncePerRequestFilter {
     // check path then get path id
     private Optional<Long> getPathId(String requestURI) {
         // path must contain customer cart url
-        Pattern customerCartURL = Pattern.compile("/customer/[0-9]+/cart.*", Pattern.CASE_INSENSITIVE);
+        Pattern customerCartURL = Pattern.compile("/customer/[0-9]+/(cart|order).*", Pattern.CASE_INSENSITIVE);
 
         if (customerCartURL.matcher(requestURI).matches()) {
             // get path id
-            String pathId = requestURI.substring(10, requestURI.indexOf("/cart"));
+            String pathId = requestURI.substring(10, requestURI.indexOf("/", 10));
             return Optional.of(Long.parseLong(pathId));
         }
         return Optional.empty();

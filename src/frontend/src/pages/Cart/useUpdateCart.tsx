@@ -4,8 +4,9 @@ import CustomerService from "../../services/CustomerService";
 
 const useUpdatecart = (
   cartList: CustomerCart[],
-  update: boolean,
-  isUpdate: React.Dispatch<React.SetStateAction<boolean>>
+  isUpdate: boolean,
+  setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsProcess: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const [timer, setTimer] = useState(0);
 
@@ -17,16 +18,18 @@ const useUpdatecart = (
     } catch (error) {
       console.log(error);
     }
+    setIsProcess(false);
     setTimer(0);
   };
 
   // if cartList(quantity change) changes then reset the timer
   useEffect(() => {
-    if (update) {
+    if (isUpdate) {
+      setIsProcess(true);
       clearTimeout(timer);
       // set a timer to execute update cart function
       setTimer(setTimeout(updateCustomerCart, 1500));
-      isUpdate(false);
+      setIsUpdate(false);
     }
   }, [cartList]);
 
