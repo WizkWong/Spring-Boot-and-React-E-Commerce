@@ -7,6 +7,7 @@ import CheckBox from "./CheckBox";
 import useRemoveCart from "./useRemoveCart";
 import useUpdateCart from "./useUpdateCart";
 import CircleLoading from "../../components/CircleLoading";
+import DialogBox from "../../components/DialogBox";
 
 export const CartContext = createContext<any>(null);
 
@@ -15,8 +16,14 @@ const Cart = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isProcess, setIsProcess] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  
-  const [selected, setSelected, removeCartItemBtn, isHiddenBtn] = useRemoveCart(cartList, setCartList, setIsProcess);
+  const [error, setError] = useState<string>();
+  const [isHidden, setIsHidden] = useState(true);
+
+  const [selected, setSelected, removeCartItemBtn, isHiddenBtn] = useRemoveCart(
+    cartList,
+    setCartList,
+    setIsProcess
+  );
   useUpdateCart(cartList, isUpdate, setIsUpdate, setIsProcess);
 
   // fetch data
@@ -33,20 +40,26 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
-    if (!isProcess && isSubmit) {
+    if (isSubmit && cartList.length === 0) {
+      setError("Cart is empty, please add some product.");
+      setIsHidden(false);
+    } else if (!isProcess && isSubmit) {
       const placeOrder = async () => {
         try {
           const { status } = await CustomerService.placeOrder();
           if (status === 200) {
             setCartList([]);
           }
-        } catch (error) {
+          setError(undefined);
+        } catch (error: any) {
           console.log(error);
+          setError("Fail to place order, please try again.");
         }
       };
       placeOrder();
-      setIsSubmit(false);
+      setIsHidden(false);
     }
+    setIsSubmit(false);
   }, [isSubmit, isProcess]);
 
   const totalPrice = useMemo(
@@ -59,7 +72,9 @@ const Cart = () => {
   );
 
   return (
-    <CartContext.Provider value={[cartList, setCartList, isUpdate, setIsUpdate]}>
+    <CartContext.Provider
+      value={[cartList, setCartList, isUpdate, setIsUpdate]}
+    >
       <div className="px-8 pb-24 my-4">
         <h1 className="mb-2 text-center text-3xl font-semibold">Your Cart</h1>
         <table className="min-w-full text-lg">
@@ -129,6 +144,14 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <DialogBox
+        title={error ? "Failed to place order!" : "Successfully place order"}
+        content={error ? error : "Your order has been placed."}
+        hidden={isHidden}
+        onClose={() => {
+          setIsHidden(true);
+        }}
+      />
     </CartContext.Provider>
   );
 };

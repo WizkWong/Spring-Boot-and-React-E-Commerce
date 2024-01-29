@@ -5,6 +5,7 @@ import com.example.SpringBootDemo.customer.CustomerRepository;
 import com.example.SpringBootDemo.customer_cart.CustomerCart;
 import com.example.SpringBootDemo.customer_cart.CustomerCartRepository;
 import com.example.SpringBootDemo.exception.NotFoundException;
+import com.example.SpringBootDemo.exception.NotValidException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,10 @@ public class CustomerOrderService {
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", customerId)));
 
         List<CustomerCart> customerCartList = customerCartRepository.findByCustomer(customer);
+
+        if (customerCartList.isEmpty()) {
+            throw new NotValidException(String.format("Customer ID:{%d} cart is empty!", customerId));
+        }
 
         CustomerOrder customerOrder = customerOrderRepository.save(
                 CustomerOrder.builder()
