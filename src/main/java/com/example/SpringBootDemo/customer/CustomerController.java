@@ -1,5 +1,6 @@
 package com.example.SpringBootDemo.customer;
 
+import com.example.SpringBootDemo.security.auth.AuthenticationResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
+    @GetMapping(path = "/profile")
+    public CustomerDTO getCustomerProfile(@RequestHeader(name = "Authorization") String token) {
+        return customerService.getCustomerByToken(token);
+    }
+
     @GetMapping
     public List<CustomerDTO> getAllCustomers() {
         return customerService.getAllCustomers();
@@ -27,6 +33,13 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(customer));
+    }
+
+    @PutMapping(path = "/update-profile")
+    public ResponseEntity<AuthenticationResponse> updateCustomerProfile(
+            @RequestHeader(name = "Authorization") String token,
+            @RequestBody CustomerDTO customerDTO) {
+        return ResponseEntity.ok().body(customerService.updateCustomerWithToken(token, customerDTO));
     }
 
     @PutMapping(path = "/{id}")

@@ -44,7 +44,7 @@ class CustomerService {
   // get current user of Customer profile
   getProfile(): Promise<AxiosResponse<CustomerProfile, any>> {
     return axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/profile`,
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/profile`,
       setAuthorizationHeader()
     );
   }
@@ -52,7 +52,7 @@ class CustomerService {
   // change current user of Customer profile
   updateProfile(customerProfile: CustomerProfile): Promise<AxiosResponse<any, any>> {
     return axios.put(
-      `${import.meta.env.VITE_API_BASE_URL}/updateProfile`,
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/update-profile`,
       customerProfile,
       setAuthorizationHeader()
     );

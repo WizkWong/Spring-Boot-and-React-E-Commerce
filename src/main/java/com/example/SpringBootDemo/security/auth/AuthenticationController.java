@@ -24,13 +24,4 @@ public class AuthenticationController {
         return ResponseEntity.ok().body(authenticationService.authenticate(request));
     }
 
-    @GetMapping(path = "/profile")
-    public CustomerDTO getProfile(@RequestHeader(name = "Authorization") String token) {
-        return authenticationService.getProfile(token);
-    }
-
-    @PutMapping(path = "/updateProfile")
-    public ResponseEntity<AuthenticationResponse> updateProfile(@RequestHeader(name = "Authorization") String token, @RequestBody CustomerDTO customerDTO) {
-        return ResponseEntity.ok().body(authenticationService.updateProfile(token, customerDTO));
-    }
 }

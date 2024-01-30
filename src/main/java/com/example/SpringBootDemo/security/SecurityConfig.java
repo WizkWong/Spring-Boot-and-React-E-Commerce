@@ -48,6 +48,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/product/**")
                     .permitAll()
                 .antMatchers(
+                        "/customer/profile",
+                        "/customer/update-profile",
                         "/customer/*/cart/**",
                         "/customer/*/order/**",
                         "/user/change-password"
