@@ -1,5 +1,6 @@
 package com.example.SpringBootDemo.product;
 
+import com.example.SpringBootDemo.customer_visit.CustomerVisitRepository;
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
 import com.example.SpringBootDemo.exception.NotValidException;
@@ -19,22 +20,23 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CustomerVisitRepository customerVisitRepository;
 
     public Product getProductById(long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Product ID:{%d} is not found", id)));
     }
 
-    public ProductSearchResult getAllProduct(int page) {
+    public ProductPage getAllProduct(int page) {
         Page<Product> productPage = productRepository.findAll(PageRequest.of(page, 30));
 
-        return new ProductSearchResult(
+        return new ProductPage(
                 productPage.getContent(),
                 productPage.getTotalPages()
         );
     }
 
-    public ProductSearchResult getProductBySearch(int page, String searchTxt) {
+    public ProductPage getProductBySearch(int page, String searchTxt) {
         // clear extra spaces of searchTxt
         searchTxt = searchTxt.trim();
 
@@ -48,7 +50,18 @@ public class ProductService {
 
         Page<Product> productPage = productRepository.findByNameContainingIgnoreCase(searchTxt, PageRequest.of(page, 30));
 
-        return new ProductSearchResult(
+        return new ProductPage(
+                productPage.getContent(),
+                productPage.getTotalPages()
+        );
+    }
+
+    public ProductPage getRecommendedProduct(int page, long customerId) {
+        List<String> topCategoryList = customerVisitRepository.findTopCategoryVisitByCustomerId(customerId, 3);
+
+        Page<Product> productPage = productRepository.findByCategoryIn(topCategoryList, PageRequest.of(page, 30));
+
+        return new ProductPage(
                 productPage.getContent(),
                 productPage.getTotalPages()
         );

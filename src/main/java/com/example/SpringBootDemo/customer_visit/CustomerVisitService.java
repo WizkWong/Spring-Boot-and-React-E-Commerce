@@ -21,7 +21,7 @@ public class CustomerVisitService {
                     CustomerVisit.builder()
                             .customer(customer)
                             .category(category)
-                            .orderDateTime(LocalDateTime.now())
+                            .visitedDateTime(LocalDateTime.now())
                             .build()
             )
         );

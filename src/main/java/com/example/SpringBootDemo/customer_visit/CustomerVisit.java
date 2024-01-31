@@ -34,5 +34,5 @@ public class CustomerVisit {
 
     private String category;
 
-    private LocalDateTime orderDateTime;
+    private LocalDateTime visitedDateTime;
 }

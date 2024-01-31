@@ -27,13 +27,18 @@ public class ProductController {
     }
 
     @GetMapping(path = "/all")
-    public ProductSearchResult getAllProduct(@RequestParam("page") int page) {
+    public ProductPage getAllProduct(@RequestParam("page") int page) {
         return productService.getAllProduct(page);
     }
 
     @GetMapping
-    public ProductSearchResult getProductBySearch(@RequestParam("page") int page, @RequestParam("search") String searchTxt) {
+    public ProductPage getProductBySearch(@RequestParam("page") int page, @RequestParam("search") String searchTxt) {
         return productService.getProductBySearch(page, searchTxt);
+    }
+
+    @GetMapping(path = "/recommended")
+    public ProductPage getRecommendedProduct(@RequestParam("page") int page, @RequestParam("customer-id") long customerId) {
+        return productService.getRecommendedProduct(page, customerId);
     }
 
     @PostMapping
