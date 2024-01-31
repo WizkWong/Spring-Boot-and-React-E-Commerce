@@ -1,8 +1,10 @@
 package com.example.SpringBootDemo.customer_order;
 
 import com.example.SpringBootDemo.customer.Customer;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "customer_order")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CustomerOrder {
     @Id

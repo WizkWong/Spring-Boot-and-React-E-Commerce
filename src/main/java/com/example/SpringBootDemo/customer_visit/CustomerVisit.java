@@ -1,8 +1,10 @@
 package com.example.SpringBootDemo.customer_visit;
 
 import com.example.SpringBootDemo.customer.Customer;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "customer_visit")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CustomerVisit {
     @Id
@@ -34,5 +38,11 @@ public class CustomerVisit {
 
     private String category;
 
+    private Integer visitedCount;
+
     private LocalDateTime visitedDateTime;
+
+    public void incrementVisitedCount() {
+        this.visitedCount++;
+    }
 }

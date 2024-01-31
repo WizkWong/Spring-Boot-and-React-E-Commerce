@@ -2,8 +2,10 @@ package com.example.SpringBootDemo.customer_order;
 
 import com.example.SpringBootDemo.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -12,6 +14,8 @@ import javax.persistence.*;
     uniqueConstraints = {@UniqueConstraint(columnNames = {"customer_order_id", "product_id"})}
 )
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CustomerOrderItem {
     @JsonIgnore
