@@ -59,7 +59,7 @@ public class ProductService {
     public ProductPage getRecommendedProduct(int page, long customerId) {
         List<String> topCategoryList = customerVisitRepository.findTopCategoryVisitByCustomerId(customerId, 3);
 
-        Page<Product> productPage = productRepository.findByCategoryIn(topCategoryList, PageRequest.of(page, 30));
+        Page<Product> productPage = productRepository.findByCategoryIn(topCategoryList, PageRequest.of(page, 12));
 
         return new ProductPage(
                 productPage.getContent(),

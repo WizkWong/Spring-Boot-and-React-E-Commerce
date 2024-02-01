@@ -33,6 +33,14 @@ class ProductServices {
     }
     return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/${id}${param}`);
   }
+
+  getProductRecommendation(page: number): Promise<AxiosResponse<ProductPaginationType, any>> {
+    if (!hasAuthToken()) {
+      throw new Error('No auth token');
+    }
+    const customerId: number = this.cookies.get("authToken").userId;
+    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/recommended?page=${page}&customer-id=${customerId}`);
+  }
 }
 
 export default ProductServices.getInstance();

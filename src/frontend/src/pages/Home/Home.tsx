@@ -1,9 +1,12 @@
-
+import RandomProduct from "./RandomProduct";
+import RecommendProduct from "./RecommendProduct";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <RecommendProduct />
+    </>
+  );
+};
 
-export default Home
+export default Home;

@@ -13,7 +13,7 @@ public interface CustomerVisitRepository extends JpaRepository<CustomerVisit, Lo
 
     Optional<CustomerVisit> findByCustomerAndCategory(Customer customer, String category);
 
-    @Query(value = "SELECT TOP (:limit) category FROM customer_visit WHERE customer_id = :customerId ORDER BY visited_count DESC",
+    @Query(value = "SELECT TOP (:limit) category FROM customer_visit WHERE customer_id = :customerId AND visited_count >= 5 ORDER BY visited_count DESC",
             nativeQuery = true)
     List<String> findTopCategoryVisitByCustomerId(long customerId, int limit);
 }
