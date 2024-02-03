@@ -67,12 +67,21 @@ public class ProductService {
         );
     }
 
+    public ProductPage getLatestProduct(int page) {
+        Page<Product> productPage = productRepository.findByOrderByCreatedDatetimeDesc(PageRequest.of(page, 12));
+
+        return new ProductPage(
+                productPage.getContent(),
+                productPage.getTotalPages()
+        );
+    }
+
     public Product createProduct(Product product) {
         if (productRepository.findByName(product.getName()).isPresent()) {
             throw new DuplicateException(String.format("Product Name:{%s} is taken", product.getName()));
         }
 
-        product.setCreated_datetime(LocalDateTime.now());
+        product.setCreatedDatetime(LocalDateTime.now());
 
         return productRepository.save(product);
     }
@@ -83,7 +92,7 @@ public class ProductService {
             if (productRepository.findByName(product.getName()).isPresent()) {
                 return String.format("Product Name:{%s} is taken", product.getName());
             }
-            product.setCreated_datetime(LocalDateTime.now());
+            product.setCreatedDatetime(LocalDateTime.now());
             productRepository.save(product);
             return null;
 

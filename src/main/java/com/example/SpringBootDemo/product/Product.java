@@ -35,17 +35,17 @@ public class Product {
     private Double price;
     @Lob
     private String image;
-    private LocalDateTime created_datetime;
+    private LocalDateTime createdDatetime;
 
-    public String getCreated_datetime() {
-        return created_datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    public String getCreatedDatetime() {
+        return createdDatetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public void setCreated_datetime(LocalDateTime created_datetime) {
-        this.created_datetime = created_datetime;
+    public void setCreatedDatetime(LocalDateTime createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
 
-    public void setCreated_datetime(String created_datetime) {
-        this.created_datetime = LocalDateTime.parse(created_datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    public void setCreatedDatetime(String created_datetime) {
+        this.createdDatetime = LocalDateTime.parse(created_datetime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

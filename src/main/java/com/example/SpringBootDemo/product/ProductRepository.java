@@ -14,6 +14,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByName(String name);
 
+    Page<Product> findByOrderByCreatedDatetimeDesc(Pageable pageable);
+
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :searchText, '%'))")
     Page<Product> findByNameContainingIgnoreCase(String searchText, Pageable pageable);
 

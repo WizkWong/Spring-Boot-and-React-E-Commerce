@@ -11,3 +11,8 @@ export interface ProductPaginationType {
   productList: ProductType[];
   totalPages: number;
 }
+
+export interface PaginationType {
+  currentPage: number,
+  totalPages: number,
+}
