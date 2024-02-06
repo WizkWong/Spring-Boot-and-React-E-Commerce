@@ -36,6 +36,18 @@ export interface CustomerProfile {
   phoneNo: string;
 }
 
+export interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface ChangePasswordValidation {
+  oldPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+}
+
 export interface CustomerCart {
   product: ProductType;
   quantity: number;

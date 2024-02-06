@@ -11,6 +11,7 @@ import Product from "./pages/Product/Product";
 import Cart from "./pages/Cart/Cart";
 import Profile from "./pages/Profile/Profile";
 import { createContext, useState } from "react";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
 
 export const SearchContext = createContext<any>(null);
 
@@ -39,6 +40,7 @@ function App() {
         {/* required login */}
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/logout" element={<Logout />} />
         </Route>

@@ -1,15 +1,16 @@
-import axios from "axios";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Customer, CustomerAuth, CustomerCart, CustomerProfile } from "../types/User";
 import { setAuthorizationHeader } from "../lib/axiousHeader";
 import { Cookies } from "react-cookie";
+import UserService from "./UserService";
 
-class CustomerService {
+class CustomerService extends UserService {
   private static instance: CustomerService;
 
   private readonly cookies: Cookies;
 
   private constructor() {
+    super();
     this.cookies = new Cookies();
   }
 
@@ -54,17 +55,6 @@ class CustomerService {
     return axios.put(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/update-profile`,
       customerProfile,
-      setAuthorizationHeader()
-    );
-  }
-
-  changePassword(oldPassword: string, newPassword: string): Promise<AxiosResponse<any, any>> {
-    return axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/user/change-password`,
-      {
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-      },
       setAuthorizationHeader()
     );
   }
