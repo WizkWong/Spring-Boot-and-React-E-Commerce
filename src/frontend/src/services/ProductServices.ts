@@ -48,6 +48,10 @@ class ProductServices {
   getProductLatest(page: number): Promise<AxiosResponse<ProductPaginationType, any>> {
     return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/latest?page=${page}`);
   }
+
+  getAllCategory(): Promise<AxiosResponse<string[], any>> {
+    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}/category`)
+  }
 }
 
 export default ProductServices.getInstance();

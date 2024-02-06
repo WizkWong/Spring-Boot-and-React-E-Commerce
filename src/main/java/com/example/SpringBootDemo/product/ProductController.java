@@ -49,6 +49,11 @@ public class ProductController {
         return productService.getLatestProduct(page);
     }
 
+    @GetMapping(path = "/category")
+    public List<String> getAllProductCategory() {
+        return productService.getAllProductCategory();
+    }
+
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(product));

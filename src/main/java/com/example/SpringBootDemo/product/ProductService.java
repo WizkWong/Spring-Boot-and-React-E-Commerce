@@ -78,6 +78,10 @@ public class ProductService {
         );
     }
 
+    public List<String> getAllProductCategory() {
+        return productRepository.findAllDistinctCategory();
+    }
+
     public Product createProduct(Product product) {
         if (productRepository.findByName(product.getName()).isPresent()) {
             throw new DuplicateException(String.format("Product Name:{%s} is taken", product.getName()));
