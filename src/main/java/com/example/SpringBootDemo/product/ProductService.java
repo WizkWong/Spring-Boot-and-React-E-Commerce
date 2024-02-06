@@ -3,10 +3,11 @@ package com.example.SpringBootDemo.product;
 import com.example.SpringBootDemo.customer_visit.CustomerVisitRepository;
 import com.example.SpringBootDemo.exception.DuplicateException;
 import com.example.SpringBootDemo.exception.NotFoundException;
-import com.example.SpringBootDemo.exception.NotValidException;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,19 +37,20 @@ public class ProductService {
         );
     }
 
-    public ProductPage getProductBySearch(int page, String searchTxt) {
-        // clear extra spaces of searchTxt
+    public ProductPage getProductByFilter(int page, @NonNull String searchTxt, @NonNull String category) {
         searchTxt = searchTxt.trim();
 
-        // check searchTxt is existed or not
-        if (searchTxt.isEmpty()) {
-            throw new NotValidException("Search parameter cannot be empty!");
+        Page<Product> productPage;
+
+        if (category.isEmpty()) {
+            productPage = productRepository.findByNameContainingIgnoreCase(
+                    searchTxt, PageRequest.of(page, 30, Sort.by("createdDatetime").descending())
+            );
+        } else {
+            productPage = productRepository.findByNameContainingIgnoreCaseAndCategory(
+                    searchTxt, category, PageRequest.of(page, 30, Sort.by("createdDatetime").descending())
+            );
         }
-
-        // split the searchTxt then join with "%" for query purpose
-        searchTxt = String.join("%", searchTxt.split(" "));
-
-        Page<Product> productPage = productRepository.findByNameContainingIgnoreCase(searchTxt, PageRequest.of(page, 30));
 
         return new ProductPage(
                 productPage.getContent(),

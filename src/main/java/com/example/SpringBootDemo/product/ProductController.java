@@ -32,8 +32,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public ProductPage getProductBySearch(@RequestParam("page") int page, @RequestParam("search") String searchTxt) {
-        return productService.getProductBySearch(page, searchTxt);
+    public ProductPage getProductByFilter(
+            @RequestParam("page") int page,
+            @RequestParam(value = "search", required = false, defaultValue = "") String searchTxt,
+            @RequestParam(value = "category", required = false, defaultValue = "") String category) {
+        return productService.getProductByFilter(page, searchTxt, category);
     }
 
     @GetMapping(path = "/recommended")
