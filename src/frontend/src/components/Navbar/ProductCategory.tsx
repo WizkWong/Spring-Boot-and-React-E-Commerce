@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { SearchContext } from "../../App";
+
 const ProductCategory = () => {
+  const [searchTxt] = useContext(SearchContext);
+
   const productCategory: string[] = [
     "Sports",
     "Clothes",
@@ -9,12 +15,13 @@ const ProductCategory = () => {
   return (
     <div className="flex items-center bg-gray-100 py-1">
       {productCategory.map((element, index) => (
-        <p
+        <Link
+          to={`product?search=${searchTxt !== "" ? searchTxt : " "}&category=${element}`}
           key={index}
           className="px-8 hover:text-black hover:cursor-pointer text-gray-600 font-bold"
         >
           {element}
-        </p>
+        </Link>
       ))}
     </div>
   );

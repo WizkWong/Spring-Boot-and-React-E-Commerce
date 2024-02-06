@@ -21,8 +21,11 @@ class ProductServices {
     return ProductServices.instance;
   }
 
-  getProductBySearch(page: number, searchTxt: string): Promise<AxiosResponse<ProductPaginationType, any>> {
-    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}?page=${page}&search=${searchTxt}`);
+  getProductBySearch(page: number, searchTxt: string, category: string | null): Promise<AxiosResponse<ProductPaginationType, any>> {
+    if (!category) {
+      category = "";
+    }
+    return axios.get(`${import.meta.env.VITE_PRODUCT_API_BASE_URL}?page=${page}&search=${searchTxt}&category=${category}`);
   }
 
   getProductById(id: number): Promise<AxiosResponse<ProductType, any>> {

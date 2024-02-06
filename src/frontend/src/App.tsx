@@ -10,6 +10,9 @@ import SearchProduct from "./pages/SearchProduct/SearchProduct";
 import Product from "./pages/Product/Product";
 import Cart from "./pages/Cart/Cart";
 import Profile from "./pages/Profile/Profile";
+import { createContext, useState } from "react";
+
+export const SearchContext = createContext<any>(null);
 
 function App() {
   const location = useLocation();
@@ -20,8 +23,12 @@ function App() {
     location.pathname.includes(path)
   );
 
+  const useQuery = new URLSearchParams(useLocation().search);
+  const searchParam = useQuery.get("search");
+  const [searchTxt, setSearctTxt] = useState(searchParam ? searchParam : "");
+
   return (
-    <>
+    <SearchContext.Provider value={[searchTxt, setSearctTxt]}>
       {shouldDisplayNavbar && <Navbar />}
       <Routes>
         <Route index element={<Home />} />
@@ -36,7 +43,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
         </Route>
       </Routes>
-    </>
+    </SearchContext.Provider>
   );
 }
 

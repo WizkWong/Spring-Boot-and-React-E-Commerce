@@ -1,12 +1,10 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import searchImg from "../../assets/search.svg";
+import { SearchContext } from "../../App";
 
 const SearchBar = () => {
-  const useQuery = new URLSearchParams(useLocation().search);
-  const searchParam = useQuery.get("search");
-
-  const [searchTxt, setSearctTxt] = useState(searchParam ? searchParam : "");
+  const [searchTxt, setSearctTxt] = useContext(SearchContext);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

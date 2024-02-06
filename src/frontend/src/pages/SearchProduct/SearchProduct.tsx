@@ -4,10 +4,10 @@ import { ProductType } from "../../types/Product";
 import ProductServices from "../../services/ProductServices";
 import ProductBox from "../../components/ProductBox";
 
-
 const SearchProduct = () => {
   const useQuery = new URLSearchParams(useLocation().search);
   const searchTxt = useQuery.get("search");
+  const category = useQuery.get("category");
   const navigate = useNavigate();
   const [productList, setProductList] = useState<ProductType[]>([]);
   const [page, setPage] = useState({
@@ -24,7 +24,8 @@ const SearchProduct = () => {
       try {
         const { data } = await ProductServices.getProductBySearch(
           page.currentPage,
-          searchTxt
+          searchTxt,
+          category
         );
         setProductList(data.productList);
         setPage({ ...page, totalPages: data.totalPages });
@@ -34,7 +35,7 @@ const SearchProduct = () => {
       }
     };
     fetchData();
-  }, [searchTxt, page.currentPage]);
+  }, [searchTxt, category, page.currentPage]);
 
   const pageBtnFunction = (p: number) => {
     setPage({ ...page, currentPage: p });
