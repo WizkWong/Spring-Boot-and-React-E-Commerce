@@ -1,11 +1,11 @@
 import MainNav from "./MainNav";
-import ProductCategory from "./ProductCategory";
+import CategoryBar from "./CategoryBar";
 
 const Navbar = () => {
   return (
     <nav>
       <MainNav />
-      <ProductCategory />
+      <CategoryBar />
     </nav>
   );
 };

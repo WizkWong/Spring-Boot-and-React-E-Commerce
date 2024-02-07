@@ -90,7 +90,7 @@ const Cart = () => {
             </button>
           </div>
           <div className="flex-1 flex flex-row items-center justify-end text-lg">
-            {isProcess ? <p>Updating...</p> : <></>}
+            {isProcess && <p>Updating...</p>}
             <button
               className="ml-8 rounded text-white font-semibold bg-orange-600 px-3 py-2"
               hidden={!isHiddenBtn}
