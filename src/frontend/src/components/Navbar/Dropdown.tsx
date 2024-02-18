@@ -41,7 +41,7 @@ const Dropdown = () => {
         <p className="text-left">{username}</p>
       </button>
       {isOpen && (
-        <div className="absolute top-12 flex flex-col items-start bg-white py-2 w-full rounded-lg shadow">
+        <div className="absolute top-12 flex flex-col items-start bg-white py-2 w-full rounded-lg shadow z-50">
           {dropdownElement.map((element, index) => (
             <Link
               key={index}
