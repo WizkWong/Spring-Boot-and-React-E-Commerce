@@ -10,7 +10,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class CustomerCartDTOMapper implements Function<CustomerCart, CustomerCartDTO> {
 
-    private ProductDTOMapper productDTOMapper;
+    private final ProductDTOMapper productDTOMapper;
 
     @Override
     public CustomerCartDTO apply(CustomerCart customerCart) {

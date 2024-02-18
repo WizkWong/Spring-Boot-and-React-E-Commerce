@@ -11,7 +11,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class CustomerOrderItemDTOMapper implements Function<CustomerOrderItem, CustomerOrderItemDTO> {
 
-    private ProductDTOMapper productDTOMapper;
+    private final ProductDTOMapper productDTOMapper;
 
     @Override
     public CustomerOrderItemDTO apply(CustomerOrderItem customerOrderItem) {
