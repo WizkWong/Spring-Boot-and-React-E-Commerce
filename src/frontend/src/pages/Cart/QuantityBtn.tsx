@@ -33,6 +33,9 @@ const QuantityBtn = ({ cartItem, index }: { cartItem: CustomerCart, index: numbe
     setQuantity(value);
   };
   const minusQty = () => {
+    if (qty === 1) {
+      return;
+    }
     setQuantity(qty - 1);
   };
   const plusQty = () => {

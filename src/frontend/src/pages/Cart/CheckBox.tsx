@@ -27,8 +27,8 @@ const CheckBox = ({
       <input
         type="checkbox"
         name="check"
-        value={cartItem.product.product_id}
-        checked={selected.includes(cartItem.product.product_id)}
+        value={cartItem.product.id}
+        checked={selected.includes(cartItem.product.id)}
         onChange={handleChange}
       ></input>
     </label>

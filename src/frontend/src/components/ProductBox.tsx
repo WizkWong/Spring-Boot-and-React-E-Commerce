@@ -10,7 +10,7 @@ const ProductBox = ({ product } : { product: ProductType }) => {
     <div
       className="bg-gray-50 w-[14rem] border-2 shadow hover:cursor-pointer"
       onClick={() => {
-        navigate(`/product/${product.product_id}`);
+        navigate(`/product/${product.id}`);
       }}  
     >
       <div className="flex mx-auto w-[13.5rem] h-[13.5rem] items-center justify-center">

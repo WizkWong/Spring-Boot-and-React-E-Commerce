@@ -24,7 +24,7 @@ const useRemoveCart = (
     const [deletedCartList, newCartList]: [CustomerCart[], CustomerCart[]] =
       cartList.reduce(
         ([d, n]: [CustomerCart[], CustomerCart[]], cartItem) => {
-          return selected.includes(cartItem.product.product_id)
+          return selected.includes(cartItem.product.id)
             ? [[...d, cartItem], n] // if true then add into deleted List
             : [d, [...n, cartItem]]; // if false then add into new List
         },
