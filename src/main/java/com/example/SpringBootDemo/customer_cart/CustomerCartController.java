@@ -13,7 +13,7 @@ public class CustomerCartController {
     private final CustomerCartService customerCartService;
 
     @GetMapping
-    public List<CustomerCart> getCustomerCartById(@PathVariable("id") long id) {
+    public List<CustomerCartDTO> getCustomerCartById(@PathVariable("id") long id) {
         return customerCartService.getCustomerCartById(id);
     }
 

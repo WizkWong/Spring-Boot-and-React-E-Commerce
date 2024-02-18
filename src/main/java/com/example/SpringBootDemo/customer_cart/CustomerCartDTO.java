@@ -1,4 +1,4 @@
-package com.example.SpringBootDemo.customer_order.DTO;
+package com.example.SpringBootDemo.customer_cart;
 
 import com.example.SpringBootDemo.product.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @JsonPropertyOrder({ "product", "quantity" })
-public class CustomerOrderItemDTO {
+public class CustomerCartDTO {
     @JsonProperty("product")
     private ProductDTO productDTO;
     private Integer quantity;

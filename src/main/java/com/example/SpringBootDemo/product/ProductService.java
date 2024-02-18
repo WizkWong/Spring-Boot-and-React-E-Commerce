@@ -22,6 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CustomerVisitRepository customerVisitRepository;
+    private final ProductDTOMapper productDTOMapper;
 
     public Product getProductById(long id) {
         return productRepository.findById(id)
@@ -29,11 +30,8 @@ public class ProductService {
     }
 
     public ProductPage getAllProduct(int page) {
-        Page<Product> productPage = productRepository.findAll(PageRequest.of(page, 30));
-
-        return new ProductPage(
-                productPage.getContent(),
-                productPage.getTotalPages()
+        return mapToProductDTOPage(
+                productRepository.findAll(PageRequest.of(page, 30))
         );
     }
 
@@ -52,29 +50,20 @@ public class ProductService {
             );
         }
 
-        return new ProductPage(
-                productPage.getContent(),
-                productPage.getTotalPages()
-        );
+        return mapToProductDTOPage(productPage);
     }
 
     public ProductPage getRecommendedProduct(int page, long customerId) {
         List<String> topCategoryList = customerVisitRepository.findTopCategoryVisitByCustomerId(customerId, 3);
 
-        Page<Product> productPage = productRepository.findByCategoryIn(topCategoryList, PageRequest.of(page, 12));
-
-        return new ProductPage(
-                productPage.getContent(),
-                productPage.getTotalPages()
+        return mapToProductDTOPage(
+                productRepository.findByCategoryIn(topCategoryList, PageRequest.of(page, 12))
         );
     }
 
     public ProductPage getLatestProduct(int page) {
-        Page<Product> productPage = productRepository.findByOrderByCreatedDatetimeDesc(PageRequest.of(page, 12));
-
-        return new ProductPage(
-                productPage.getContent(),
-                productPage.getTotalPages()
+        return mapToProductDTOPage(
+                productRepository.findByOrderByCreatedDatetimeDesc(PageRequest.of(page, 12))
         );
     }
 
@@ -163,5 +152,12 @@ public class ProductService {
             throw new NotFoundException(String.format("Product ID:{%d} is not found", id));
         }
         productRepository.deleteById(id);
+    }
+
+    private ProductPage mapToProductDTOPage(Page<Product> productPage) {
+        return new ProductPage(
+            productPage.getContent().stream().map(productDTOMapper).collect(Collectors.toList()),
+            productPage.getTotalPages()
+        );
     }
 }

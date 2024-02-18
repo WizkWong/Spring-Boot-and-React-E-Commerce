@@ -1,6 +1,5 @@
 package com.example.SpringBootDemo.product;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,12 +22,10 @@ public class Product {
             strategy = GenerationType.SEQUENCE,
             generator = "products_sequence"
     )
-
     @Column(
             name = "id",
             updatable = false
     )
-    @JsonProperty("product_id")
     private Long id;
     private String name;
     private String category;

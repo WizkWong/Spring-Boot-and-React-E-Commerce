@@ -21,19 +21,16 @@ public class CustomerCartService {
     private final CustomerRepository customerRepository;
     private final CustomerCartRepository customerCartRepository;
     private final ProductRepository productRepository;
+    private final CustomerCartDTOMapper customerCartDTOMapper;
 
-    public List<CustomerCart> getCustomerCartById(long id) {
+    public List<CustomerCartDTO> getCustomerCartById(long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", id)));
 
-        return customerCartRepository.findByCustomer(customer);
-    }
-
-    public List<CustomerCart> getCustomerCartByUsername(String username) {
-        Customer customer = customerRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException(String.format("Customer username:{%s} is not found", username)));
-
-        return customerCartRepository.findByCustomer(customer);
+        return customerCartRepository.findByCustomer(customer)
+                .stream()
+                .map(customerCartDTOMapper)
+                .collect(Collectors.toList());
     }
 
     @Transactional
