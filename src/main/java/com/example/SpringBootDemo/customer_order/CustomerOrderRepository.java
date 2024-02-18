@@ -12,5 +12,5 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder, Lo
 
     Optional<CustomerOrder> findByIdAndCustomer(long id, Customer customer);
 
-    List<CustomerOrder> findByCustomer(Customer customer);
+    List<CustomerOrder> findByCustomerOrderByOrderDateTimeDesc(Customer customer);
 }

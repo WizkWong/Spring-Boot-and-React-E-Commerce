@@ -52,3 +52,16 @@ export interface CustomerCart {
   product: ProductType;
   quantity: number;
 }
+
+export interface CustomerOrder {
+  id : number;
+  totalPrice : number;
+  totalUniqueItems : number;
+  totalItems : number;
+  orderDateTime : string;
+}
+
+export interface CustomerOrderItem {
+  product: ProductType;
+  quantity: number;
+}

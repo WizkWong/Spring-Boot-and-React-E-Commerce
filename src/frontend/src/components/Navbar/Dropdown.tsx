@@ -20,10 +20,14 @@ const Dropdown = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const dropdownElement: { label: string; url: string }[] = [
+  const dropdownElement = [
     {
-      label: "Your Profile",
+      label: "Profile",
       url: "profile",
+    },
+    {
+      label: "Order",
+      url: "order",
     },
     {
       label: "Sign Out",

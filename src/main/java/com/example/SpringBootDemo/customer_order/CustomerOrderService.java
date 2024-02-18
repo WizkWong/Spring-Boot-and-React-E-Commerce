@@ -32,7 +32,7 @@ public class CustomerOrderService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException(String.format("Customer ID:{%d} is not found", customerId)));
 
-        return customerOrderRepository.findByCustomer(customer)
+        return customerOrderRepository.findByCustomerOrderByOrderDateTimeDesc(customer)
                 .stream()
                 .map(customerOrderDTOMapper)
                 .collect(Collectors.toList());

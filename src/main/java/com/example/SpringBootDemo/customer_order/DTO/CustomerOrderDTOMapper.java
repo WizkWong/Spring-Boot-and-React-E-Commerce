@@ -15,7 +15,12 @@ public class CustomerOrderDTOMapper implements Function<CustomerOrder, CustomerO
     public CustomerOrderDTO apply(CustomerOrder customerOrder) {
         return CustomerOrderDTO.builder()
                 .id(customerOrder.getId())
-                .orderDateTime(customerOrder.getOrderDateTime())
+                .totalPrice(customerOrder.getOrderItemsList()
+                        .stream()
+                        .parallel()
+                        .mapToDouble(orderItem -> orderItem.getQuantity() * orderItem.getProduct().getPrice())
+                        .sum()
+                )
                 .totalUniqueItems(customerOrder.getOrderItemsList().size())
                 .totalItems(customerOrder.getOrderItemsList()
                         .stream()
@@ -23,6 +28,7 @@ public class CustomerOrderDTOMapper implements Function<CustomerOrder, CustomerO
                         .mapToInt(CustomerOrderItem::getQuantity)
                         .sum()
                 )
+                .orderDateTime(customerOrder.getOrderDateTime())
                 .build();
     }
 }

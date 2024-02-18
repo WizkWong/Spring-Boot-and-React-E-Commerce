@@ -13,9 +13,10 @@ import java.time.format.DateTimeFormatter;
 public class CustomerOrderDTO {
 
     private Long id;
-    private LocalDateTime orderDateTime;
+    private Double totalPrice;
     private Integer totalUniqueItems;
     private Integer totalItems;
+    private LocalDateTime orderDateTime;
 
     public String getOrderDateTime() {
         return orderDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

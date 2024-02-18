@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Customer, CustomerAuth, CustomerCart, CustomerProfile } from "../types/User";
+import { Customer, CustomerAuth, CustomerCart, CustomerOrder, CustomerOrderItem, CustomerProfile } from "../types/User";
 import { setAuthorizationHeader } from "../lib/axiousHeader";
 import { Cookies } from "react-cookie";
 import UserService from "./UserService";
@@ -102,6 +102,22 @@ class CustomerService extends UserService {
     return axios.post(
       `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customerId}/order`,
       {},
+      setAuthorizationHeader()
+    );
+  }
+
+  getOrders(): Promise<AxiosResponse<CustomerOrder[], any>> {
+    const customerId: number = this.cookies.get("authToken").userId;
+    return axios.get(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customerId}/order`,
+      setAuthorizationHeader()
+    );
+  }
+
+  getOrderItems(orderId: number): Promise<AxiosResponse<CustomerOrderItem[], any>> {
+    const customerId: number = this.cookies.get("authToken").userId;
+    return axios.get(
+      `${import.meta.env.VITE_CUSTOMER_API_BASE_URL}/${customerId}/order/${orderId}/items`,
       setAuthorizationHeader()
     );
   }
