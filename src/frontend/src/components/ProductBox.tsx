@@ -5,7 +5,7 @@ import defaultImg from "../assets/default.jpg";
 
 const ProductBox = ({ product } : { product: ProductType }) => {
   return (
-    <Link to={`product/${product.id}`}
+    <Link to={`/product/${product.id}`}
       className="bg-gray-50 w-[14rem] border-2 shadow hover:cursor-pointer"
     >
       <div className="flex mx-auto w-[13.5rem] h-[13.5rem] items-center justify-center">

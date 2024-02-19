@@ -42,7 +42,7 @@ const Order = () => {
             <th>Price</th>
             <th>Total Items</th>
             <th>Total Unique Items</th>
-            <th>Order Date</th>
+            <th>Order Datetime</th>
             <th></th>
           </tr>
         </thead>

@@ -13,6 +13,7 @@ import Profile from "./pages/Profile/Profile";
 import { createContext, useState } from "react";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import Order from "./pages/Order/Order";
+import OrderDetail from "./pages/Order/OrderDetail/OrderDetail";
 
 export const SearchContext = createContext<any>(null);
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/order" element={<Order/>} />
+          <Route path="/order/:id" element={<OrderDetail/>} />
           <Route path="/logout" element={<Logout />} />
         </Route>
       </Routes>
