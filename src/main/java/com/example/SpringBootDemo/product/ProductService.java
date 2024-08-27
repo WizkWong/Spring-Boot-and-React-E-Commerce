@@ -156,7 +156,7 @@ public class ProductService {
 
     private ProductPage mapToProductDTOPage(Page<Product> productPage) {
         return new ProductPage(
-            productPage.getContent().stream().map(productDTOMapper).collect(Collectors.toList()),
+            productPage.map(productDTOMapper).getContent(),
             productPage.getTotalPages()
         );
     }
