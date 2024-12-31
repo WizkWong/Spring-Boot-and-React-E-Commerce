@@ -1,13 +1,18 @@
 # Spring-Boot-and-React-E-Commerce
 
 ## Project Description:
-Create a E-Commerce Application for customer to visit the website and purchase any desire products.
+Create an E-Commerce Application for customers to visit the website and purchase any desired products.
 
-The programming languages and library used to build E-Commerce Application:
+The programming languages and library used to build E-Commerce Applications:
 - React TypeScript
 - Spring Boot Java
 - JWT Web Token
 
-The project is still undergoing...
+Features:
+- Register / Login
+- Manage Profile
+- Search product
+- Add to cart & place order
+- Order History
 
-> This project I created is for my learning purpose, to enhance my knowledge about React, Spring Boot, security, and API architecture. My objective is to pursue **Full Stack Developer**.
+> This project I created is for my learning purpose, to enhance my knowledge about React JS, Java Spring Boot, security, and API architecture.
